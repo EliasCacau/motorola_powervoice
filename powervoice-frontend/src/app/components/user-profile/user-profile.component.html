@@ -1,0 +1,283 @@
+<div id="wrapper">
+  <!-- Alert component -->
+  <div class="d-flex justify-content-center w-100">
+    <div
+      class="alertas mt-5 sm-5 mt-md-5 mt-lg-0 col-10 col-sm-7 col-md-6 col-lg-5 d-flex justify-content-center row position-fixed">
+      <app-alerta></app-alerta>
+    </div>
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+      <app-loading></app-loading>
+      <!-- Main Content -->
+      <div id="content">
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+          <!-- Page Heading -->
+          <h1 class="h3 mb-2 mt-4 text-gray-800">Seu usuário</h1>
+          <p class="mb-4">Informações do seu usuário</p>
+        </div>
+        <!-- End Heading -->
+
+        <!-- Menu das features cadastradas do usuário -->
+
+        <!-- Modal das features do usuario -->
+
+        <ng-template #content1 let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title">Suas Features</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+          </div>
+          <div class="modal-body">
+            <!-- Tabela das feature do usuário -->
+            <div class="card-shadow">
+              <div class="card-body">
+                <div class="table-responsive table-hover">
+                  <table class="table table-bordered text-center" width="100%" cellspacing="0">
+                    <!-- Cabeçalho da tabela -->
+                    <thead>
+                      <tr>
+                        <th>Ações</th>
+                        <th>Titulo da Feature</th>
+                        <th>Data</th>
+                        <th>Descrição</th>
+                      </tr>
+                    </thead>
+                    <!-- corpo da tebela -->
+                    <tbody *ngFor="let item of registrosFeature">
+                      <tr>
+                        <td>
+                          <!-- (click)="open(contentUpdate); getFeature(item.id)" -->
+                          <!-- (click)="delete(item.id, item.title)" -->
+                          <button (click)="openXl(contentUpdate); getFeature(item.id)"
+                            class="btn btn-outline-primary me-1">
+                            <i class="bi bi-pen-fill"></i>
+                          </button>
+                          <button (click)="delete(item.id, item.title)" class="btn btn-outline-danger ms-1">
+                            <i class="bi bi-trash3-fill"></i>
+                          </button>
+                        </td>
+
+                        <td>{{ item.title }}</td>
+                        <td>{{ item.publishDate | date: "dd/MM/yyyy" }}</td>
+                        <td>{{ item.description }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </ng-template>
+
+        <div class="body container-lg d-inline">
+          <!-- Inicio as informações gerais usuário -->
+          <div class="row g-2 m-5">
+            <div class="col-3">
+              <div class="p-3 border bg-light text-center" id="perfil">
+                <!-- Quanto tiver implementado a foto de usuário modificar aqui  e colocar a tag de imagem-->
+                <i id="photo" class="bi bi-person-bounding-box"></i>
+                <p>
+                  {{getUsuarioAutenticado().name}}
+                </p>
+                <p id="nomeUsuario">
+                  {{getUsuarioAutenticado().email}}
+                </p>
+                <div class="container-fluid p-4">
+                  <!-- Aqui vai ser para visualizar as features que o usuário cadastrou -->
+                  <div class="button-feature">
+                    <button id="btn-f" (click)="openXl(content1)">
+                      <i class="bi bi-bookmark"></i>
+                      Suas Features
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Fim das informações gerais -->
+
+            <!-- Inicio Modal de edição das features -->
+            <ng-template #contentUpdate let-c="close" let-d="dismiss">
+              <div class="modal-header">
+                <h4 class="modal-title" id="modal-basic-title">
+                  Alteração de Feature
+                </h4>
+                <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+              </div>
+              <div class="modal-body">
+                <div class="container">
+                  <div class="row justify-content-center">
+                    <div class="col-12">
+                      <article class="cadastrar-feature">
+                        <!-- (ngSubmit)="submit(form)" -->
+                        <form (ngSubmit)="submitUpdateFeature(form)" #form="ngForm" class="form-body">
+                          <input [(ngModel)]="registroFeature.id" type="hidden" name="id" />
+
+                          <input [(ngModel)]="registroRecovered.username" type="hidden" name="id" />
+                          <div class="row">
+                            <div class="row align-items-center tip mb-3">
+                              <div class="form-floating col-12 col-md-6 col-lg-6 mb-3">
+                                <input type="text" class="form-control" id="autorInput"
+                                  placeholder="Exibe o nome do Autor da publicação" [disabled]="true" />
+                                <!-- *ngIf="registroFeature.username" -->
+                                <label *ngIf="registroFeature.user" for="autorInput" class="px-4">Autor:
+                                  {{registroFeature.user.username }}
+                                </label>
+                              </div>
+
+                              <div class="form-floating col-12 col-md-6 col-lg-6 mb-3">
+                                <input type="text" class="form-control" id="publishDateInput"
+                                  placeholder="Exibe a data da publicação" [disabled]="true" />
+                                <label for="publishDateInput" class="px-4">Publicado em:
+                                  {{registroFeature.publishDate | date: "dd/MM/yyyy"}}
+                                </label>
+                              </div>
+                            </div>
+
+                            <div class="row align-items-center tip mb-3">
+                              <div class="form-floating col-12 col-md-6 col-lg-6">
+                                <select class="form-select mb-3" aria-label="Produto da publicação" id="produtoName"
+                                  name="product" [(ngModel)]="registroFeature.product" required
+                                  [compareWith]="compareById">
+                                  <option *ngFor="let item of productId" [ngValue]="item">
+                                    {{ item.name }}
+                                  </option>
+                                </select>
+                                <label for="produtoName" class="px-4">Produto</label>
+                              </div>
+
+                              <div class="form-floating col-12 col-md-6 col-lg-6">
+                                <select class="form-select mb-3" aria-label="Categoria da publicação" id="categoriaName"
+                                  name="category" [(ngModel)]="registroFeature.category" required
+                                  [compareWith]="compareById">
+                                  <option *ngFor="let item of categoryId" [ngValue]="item">
+                                    {{ item.category }}
+                                  </option>
+                                </select>
+                                <label for="categoriaName" class="px-4">Categoria</label>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="row form-floating col-12 mb-4">
+
+                            <input [(ngModel)]="registroFeature.title" type="text" class="form-control" id="tituloInput"
+                              placeholder="Insra o título da sua publicação" name="title" />
+                            <label for="tituloInput" class="px-4">Título da publicação</label>
+                          </div>
+
+                          <div class="row form-floating col-12 mb-4">
+
+                            <textarea [(ngModel)]="registroFeature.description" class="form-control"
+                              placeholder="Descreva sua ideia" id="descricaoTextArea" name="description"></textarea>
+                            <label for="descricaoTextArea" class="px-4">Descrição</label>
+
+                          </div>
+
+                          <div class="button-submit d-flex justify-content-center">
+                            <!-- (click)="c('Save click')" -->
+                            <button (click)="c('Save click')" type="submit" id="refresh"
+                              class="btn btn-success btn-block mb-0 w-25 mt-3">
+                              Alterar
+                            </button>
+                          </div>
+                        </form>
+                      </article>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+
+            <!-- Fim Modal features -->
+
+            <!-- Inicio Informações do usuário -->
+
+            <div class="col-7">
+              <div class="p-3 border bg-light text-center">
+                <form (ngSubmit)="submit(formUser)" #formUser="ngForm" class="row g-3">
+                  <!-- Campo do usuários -->
+                  <div class="col-md-6">
+                    <label for="inputUsuario" class="form-label">Usuário</label>
+                    <input type="text" class="form-control" id="usernameInput" placeholder="Insira um nome de usuário"
+                      name="username" [(ngModel)]="registroRecovered.username" required />
+                  </div>
+                  <!-- Campo do email -->
+                  <div class="col-md-6">
+                    <label for="inputEmail" class="form-label">Email</label>
+                    <input type="email" class="form-control" name="email" id="email" placeholder="you@example.com"
+                      [(ngModel)]="registroRecovered.email" required />
+                  </div>
+                  <!-- Campo do Nome -->
+                  <div class="col-12">
+                    <label for="inputNomeCompleto" class="form-label">Nome Completo</label>
+                    <input type="text" class="form-control" id="nomeCompletoInput" placeholder="Seu nome" name="name"
+                      [(ngModel)]="registroRecovered.name" required />
+                  </div>
+                  <!-- Campo da Data -->
+                  <div class="col-md-6">
+                    <label for="birthDateInput" class="form-label">Data de Nascimento</label>
+                    <input type="date" id="birthDateInput" class="form-control" name="birthDate"
+                      [(ngModel)]="registroRecovered.birthDate" requireds />
+                  </div>
+                  <!-- Campo do telefone -->
+                  <div class="col-md-6">
+                    <label for="inputTelefone" class="form-label">Telefone</label>
+                    <input type="text" class="form-control" name="phone" [(ngModel)]="registroRecovered.phone"
+                      id="inputTelefone" placeholder="Ex: (99)9999-9999" mask="(00) 0 0000-0000"
+                      [dropSpecialCharacters]="false" />
+                  </div>
+                  <!-- Campo do Genero -->
+                  <div class="col-md-4">
+                    <label for="inputGenero" class="form-label">Genero</label>
+                    <select id="generoSelect" name="sex" [(ngModel)]="registroRecovered.sex" required
+                      class="form-select" required>
+                      <option value="" data-default disabled selected></option>
+                      <option value="Masculino">Masculino</option>
+                      <option value="Feminino">Feminino</option>
+                      <option value="Indefinido">Indefinido</option>
+                    </select>
+                  </div>
+                  <!-- Campo da Regiao -->
+                  <div class="col-md-4">
+                    <label for="inputRegiao" class="form-label">Região</label>
+                    <select id="stateSelect" name="country" class="form-select" (change)="setState()"
+                      [(ngModel)]="registroRecovered.country" [compareWith]="compareById" required>
+                      <option *ngFor="let item of country" [ngValue]="item" selected>
+                        {{item.name}}
+                      </option>
+                    </select>
+                  </div>
+                  <!-- Campo do Estado -->
+                  <div class="col-md-4">
+                    <label for="stateSelect" class="form-label">Estado</label>
+                    <select id="stateSelect" class="form-select" name="state" (change)="setCity()"
+                      [(ngModel)]="registroRecovered.state" [compareWith]="compareById" required>
+                      <option *ngFor="let item of state" [ngValue]="item" selected>
+                        {{item.name}}
+                      </option>
+                    </select>
+                  </div>
+                  <!-- Campo da Cidade -->
+                  <div class="col-12">
+                    <label for="citySelect" class="form-label">Cidade</label>
+                    <select id="citySelect" name="city" [(ngModel)]="registroRecovered.city" [compareWith]="compareById"
+                      required class="form-select">
+                      <option *ngFor="let item of city" [ngValue]="item">
+                        {{item.name}}
+                      </option>
+                    </select>
+                  </div>
+                  <!-- Botao de alterar -->
+                  <div class="col-12">
+                    <button type="submit" class="btn btn-success">Alterar</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,18 @@
+#wrapper {
+    // display: flex;
+    margin-top: 65px;
+    .alertas {
+      top: 5rem;
+      z-index: 1100;
+    }
+    #content-wrapper {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+    iframe {
+        min-height: 100vh;
+    }
+  }
+  

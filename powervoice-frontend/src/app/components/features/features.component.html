@@ -1,0 +1,360 @@
+<app-loading style="position: absolute; z-index: 2000"></app-loading>
+<div id="wrapper">
+  <div id="radius-shape-1" class="rounded-circle shadow-5-strong"></div>
+  <div id="radius-shape-2" class="rounded-circle shadow-5-strong"></div>
+  <div id="radius-shape-3" class="rounded-circle shadow-5-strong"></div>
+
+  <!--  Modal cadastro de features -->
+
+  <ng-template #content let-c="close" let-d="dismiss">
+    <div class="card bg-glass" *ngIf="isAutenticado()">
+      <div class="card-body px-4 py-4 px-md-4">
+        <div class="modal-header d-flex align-items-center px-3 pb-3">
+          <h4 class="modal-title" id="modal-basic-title">
+            Conte-nos a sua ideia
+          </h4>
+          <button
+            type="button"
+            class="btn-close"
+            aria-label="Close"
+            (click)="d('Cross click')"
+          ></button>
+        </div>
+
+        <div class="modal-body">
+          <div class="container">
+            <div class="row justify-content-center">
+              <div class="col-12">
+                <article class="cadastrar-feature mt-4">
+                  <form
+                    (ngSubmit)="submit(form)"
+                    #form="ngForm"
+                    class="form-body"
+                  >
+                    <div class="container">
+                      <div class="row align-items-center tip mb-3">
+                        <div
+                          class="form-floating mb-4 col-12 col-md-6 col-lg-6"
+                        >
+                          <select
+                            class="form-select"
+                            aria-label="Produto da publicação"
+                            id="categoriaName"
+                            name="product"
+                            #product="ngModel"
+                            (change)="setCategory()"
+                            [(ngModel)]="registro.productId"
+                            required
+                            [compareWith]="compareById"
+                          >
+                            <option
+                              *ngFor="let item of productId"
+                              [ngValue]="item.id"
+                            >
+                              {{item.name}}
+                            </option>
+                          </select>
+                          <label for="categoriaName" class="px-4"
+                            >Produto</label
+                          >
+                          <div
+                            *ngIf="form.submitted && product.invalid"
+                            class="erro-detalhes"
+                          >
+                            <div *ngIf="product.errors?.['required']">
+                              O produto é obrigatório.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div
+                          class="form-floating mb-4 col-12 col-md-6 col-lg-6"
+                        >
+                          <select
+                            class="form-select"
+                            aria-label="Categoria da publicação"
+                            id="categoriaName"
+                            name="category"
+                            #category="ngModel"
+                            [(ngModel)]="registro.categoryId"
+                            required
+                            [compareWith]="compareById"
+                          >
+                            <option
+                              *ngFor="let item of categoryId"
+                              [ngValue]="item.id"
+                            >
+                              {{item.category}}
+                            </option>
+                          </select>
+                          <label for="categoriaName" class="px-4"
+                            >Categoria</label
+                          >
+                          <div
+                            *ngIf="form.submitted && category.invalid"
+                            class="erro-detalhes"
+                          >
+                            <div *ngIf="category.errors?.['required']">
+                              A categoria é obrigatória.
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-floating col-12 mb-4">
+                      <input
+                        input
+                        type="text"
+                        class="form-control"
+                        id="tituloInput"
+                        maxlength="60"
+                        placeholder="Insra o título da sua publicação"
+                        name="title"
+                        #title="ngModel"
+                        [(ngModel)]="registro.title"
+                        required
+                      />
+                      <label for="tituloInput" class="px-4"
+                        >Título da publicação</label
+                      >
+                      <div
+                        *ngIf="form.submitted && title.invalid"
+                        class="erro-detalhes"
+                      >
+                        <div *ngIf="title.errors?.['required']">
+                          O título é obrigatório.
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-floating col-12 mb-4">
+                      <textarea
+                        class="form-control"
+                        maxlength="250"
+                        placeholder="Descreva sua ideia"
+                        id="descricaoTextArea"
+                        name="description"
+                        #description="ngModel"
+                        [(ngModel)]="registro.description"
+                        required
+                      ></textarea>
+                      <label for="descricaoTextArea" class="px-4"
+                        >Descreva sua ideia</label
+                      >
+                      <div
+                        *ngIf="form.submitted && description.invalid"
+                        class="erro-detalhes"
+                      >
+                        A descrição é obrigatória
+                      </div>
+                    </div>
+                    <!-- Submit button -->
+                    <div class="button-submit d-flex justify-content-center">
+                      <button
+                        type="submit"
+                        id="refresh"
+                        class="btn btn-base d-flex justify-content-center align-items-center gap-2 p-1 col-8 col-sm-6 col-md-6 col-lg-4"
+                        (click)="form.valid ? c('Save click') : null"
+                      >
+                        <i class="bi bi-plus-lg"></i>
+                        Cadastrar
+                      </button>
+                    </div>
+                  </form>
+                </article>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <!-- Não autenticado -->
+
+  <ng-template #contentAviso let-c="close" let-d="dismiss">
+    <div class="card bg-glass" *ngIf="!isAutenticado()">
+      <div class="card-body px-4 py-4 px-md-4">
+        <div class="modal-body">
+          <div class="container">
+            <div class="row justify-content-center">
+              <div class="col-12">
+                <article class="cadastrar-feature mt-4">
+                  <div class="container flex-center">
+                    <div class="row d-flex justify-content-center">
+                      <p class="text-center">
+                        Você precisa fazer login para poder cadastrar uma nova
+                        Feature
+                      </p>
+                      <button
+                        class="btn btn-primary w-25"
+                        routerLink="/login"
+                        (click)="c('Save click')"
+                      >
+                        Login
+                      </button>
+                    </div>
+                  </div>
+                </article>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <!-- Fim modal de cadastro de Feature -->
+
+  <section class="main w-100 mx-md-5 mt-5">
+    <div class="container-fluid">
+      <div class="container my-5">
+        <div
+          class="top-section d-flex flex-column align-items-center position-relative"
+          
+        >
+          <div
+            class="alertas col-10 col-sm-7 col-md-6 col-lg-5 d-flex justify-content-center row position-fixed"
+          >
+            <app-alerta></app-alerta>
+          </div>
+          <h2 class="my-2 text-center">
+            Compartilhe sua opinião com a nossa comunidade
+          </h2>
+          <h3 class="my-3 text-center">
+            Queremos saber sua ideia para os produtos Motorola.
+          </h3>
+          <button class="btn btn-danger p-2 my-2" *ngIf="isAutenticado()" (click)="open(content)">
+            <i class="bi bi-pencil-square"></i>
+            Adicionar publicação
+          </button>
+          <button class="btn btn-danger p-2 my-2" *ngIf="!isAutenticado()" (click)="openAvisoLogin(contentAviso)">
+            <i class="bi bi-pencil-square"></i>
+            Adicionar publicação
+          </button>
+        </div>
+        <div class="ranking-section">
+          <!-- Seção de ranking de Features -->
+          <h2 class="text-center mt-5 mb-2">
+            <h3>Confira as ideias que estão em alta</h3>
+          </h2>
+          <!-- Filtros -->
+          <div
+            class="search-section d-flex justify-content-center mb-3 mt-4 gap-sm-0 gap-md-2 sticky-top"
+          >
+            <div class="d-flex w-100 p-0 justify-content-center">
+              <span class="filter-icon pt-1">
+                <i class="bi bi-funnel-fill"></i>
+              </span>
+              <form
+                class="search-form d-flex justify-content-center gap-4 mt-2 mb-3"
+              >
+                <div
+                  class="row d-flex justify-content-center gap-2 col-12 col-sm-12 col-md-12 col-lg-12"
+                >
+                  <div
+                    class="search-filter d-flex justify-content-center col-12 col-md-6 gap-4 mb-3 mb-md-0"
+                  >
+                    <div class="search-product">
+                      <select
+                        class="form-control-sm"
+                        id="product"
+                        name="product"
+                        [(ngModel)]="product"
+                        required
+                        [compareWith]="compareById"
+                        (change)="filterCategoryByProduct()"
+                        (ngModelChange)="filter()"
+                      >
+                        >
+                        <option [ngValue]="{}" selected>Produtos</option>
+                        <option *ngFor="let item of productId" [ngValue]="item">
+                          {{item.name}}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="search-category">
+                      <select
+                        class="form-control-sm"
+                        id="categoriaName"
+                        name="category"
+                        [(ngModel)]="category"
+                        required
+                        [compareWith]="compareById"
+                        (ngModelChange)="filter()"
+                      >
+                        <option [ngValue]="{}" selected>Categorias</option>
+                        <option
+                          *ngFor="let item of categoryId"
+                          [ngValue]="item"
+                        >
+                          {{item.category}}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div
+                    class="search-input col-12 col-sm-11 col-md-5 col-lg-5 d-flex"
+                  >
+                    <input
+                      type="text"
+                      placeholder="Pesquisar"
+                      class="form-control"
+                      id="search"
+                      name="termoBusca"
+                      placeholder="Pesquisar"
+                      [(ngModel)]="termoBusca"
+                    />
+                    <div class="input-group-append">
+                      <button
+                        type="submit"
+                        class="btn btn-base"
+                        (click)="resetaRegistroBusca();buscaRegistros(termoBusca)"
+                      >
+                        <i class="bi bi-search"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- Cards das features -->
+        <div class="cards" infinite-scroll (scrolled)="onScrollDown()">
+          <app-features-cards
+            *ngFor="let registroFeatures of registros"
+            [registroCard]="registroFeatures"
+            [productsFeatures]="productId"
+            [categorysReports]="reportCategorys"
+            class="row d-flex justify-content-center"
+            (atualizaRegistros)="getLikesUsuario()"
+          ></app-features-cards>
+        </div>
+              
+          </div>
+
+
+      <!-- sidebar com top 10 -->
+      <div class="top10 px-1 px-md-0 px-lg-2 px-xl-3 mx-xxl-5">
+        <aside
+          class="aside w-25 mt-5 position-fixed"
+        >
+          <app-ranking-top10>
+          </app-ranking-top10>
+        </aside>
+      </div>
+      
+      <!-- Voltar para o topo-->
+      <a
+      type="button"
+      class="btn btn-danger btn-floating btn-lg rounded-circle"
+      id="btn-back-to-top"
+      href="/features#wrapper"
+      [class.d-flex]="asideIsFixed"
+      >
+      <i class="bi bi-arrow-up"></i>
+      </a>
+    </div>
+  </section>
+</div>

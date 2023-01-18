@@ -1,0 +1,192 @@
+@use '../variable/variables' as variables;
+
+@mixin container {
+    max-width: variables.$container-width;
+    padding: 1.5rem 0;
+    margin: 0 auto;
+}
+
+
+@mixin flex-center {  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin flex-between {
+    display: flex;
+    justify-content: space-between;
+}
+
+// aplicar border-box
+@mixin border-box {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    }
+
+// centralidar conteúdo
+@mixin push--auto { 
+    margin: { 
+        left: auto; 
+        right: auto; 
+    } 
+} 
+
+// Aplica um nível de opacidade ao elemento
+// Uso: div { @include opacity(0.5); }
+@mixin opacity($opacity) {
+    opacity: $opacity;
+   filter: alpha(opacity=($opacity * 100));
+}
+
+// Posiciona um elemento ao longo do eixo X.
+// Uso: div { @include xPos(50px);}
+@mixin positionX($x) {
+    -webkit-transform:translateX($x);
+    -moz-transform:translateX($x);
+    -ms-transform:translateX($x);
+    transform:translateX($x);
+    }
+
+// Alinha verticalmente os elementos
+// Uso: div { @include vertical-align(); }
+@mixin vertical-align {
+    position: relative;
+top: 50%;
+-webkit-transform: translateY(-50%);
+-ms-transform: translateY(-50%);
+transform: translateY(-50%);
+}
+
+// Quando usa o ::before e o ::after, sempre precisa desses três
+@mixin pseudo($display: block, $pos: absolute, $content: '') { 
+    content: $content; 
+    display: $display; 
+    position: $pos; }
+
+// criar elementos escaláveis (normalmente imagens / backgrounds) que precisem manter a proporção.
+// Exemplo de uso: div { @include responsive-ratio(16,9); } 
+@mixin responsive-ratio($x,$y, $pseudo: false) { 
+    $padding: unquote( ( $y / $x ) \* 100 + '%' ); 
+    @if $pseudo { 
+        &:before { 
+            @include pseudo($pos: relative); 
+            width: 100%; 
+            padding-top: $padding; 
+        } 
+    } 
+    @else { 
+        padding-top: $padding; 
+    } 
+}
+
+// Mixin usado para não mostrar conteúdo excedente. Aplica reticências.
+@mixin truncate($truncation-boundary) { 
+    max-width: $truncation-boundary; 
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+} 
+
+// Aceleração de hardware/animações css. Evita lags de animação
+@mixin hardware($backface: true, $perspective: 1000) {
+
+	@if $backface {
+		backface-visibility: hidden;
+	}
+
+	perspective: $perspective;
+}
+
+// Mixin para controlar a position da div.
+@mixin position($pos, $t, $r, $b, $l, $z: false, $hardware: true) {
+	@if $pos == fixed and $hardware { @include hardware; }
+	@if $pos { position: $pos; }
+	@if $t { top: $t; }
+	@if $r { right: $r; }
+	@if $b { bottom: $b; }
+	@if $l { left: $l; }
+	@if $z { z-index: $z; }
+}
+
+
+// Aplica gradiente. Uso: div { @include gradient(#ff00ff, #ff00cc, vertical); }
+@mixin gradient($start-color, $end-color, $orientation)
+ {
+    background: $start-color;
+    @if $orientation == vertical
+    {
+    // vertical
+    background: -moz-linear-gradient(top,  $start-color 0%, $end-color 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,$start-color), color-stop(100%,$end-color));
+    background: -webkit-linear-gradient(top,  $start-color 0%,$end-color 100%);
+    background: -o-linear-gradient(top,  $start-color 0%,$end-color 100%);
+    background: -ms-linear-gradient(top,  $start-color 0%,$end-color 100%);
+    background: linear-gradient(to bottom,  $start-color 0%,$end-color 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$start-color', endColorstr='$end-color',GradientType=0 );
+    }
+    @else if $orientation == horizontal
+    {
+    // horizontal
+    background: -moz-linear-gradient(left,  $start-color 0%, $end-color 100%);
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,$start-color), color-stop(100%,$end-color));
+    background: -webkit-linear-gradient(left,  $start-color 0%,$end-color 100%);
+    background: -o-linear-gradient(left,  $start-color 0%,$end-color 100%);
+    background: -ms-linear-gradient(left,  $start-color 0%,$end-color 100%);
+    background: linear-gradient(to right,  $start-color 0%,$end-color 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$start-color', endColorstr='$end-color',GradientType=1 );
+    }
+    @else
+    {
+    // radial
+    background: -moz-radial-gradient(center, ellipse cover,  $start-color 0%, $end-color 100%);
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,$start-color), color-stop(100%,$end-color));
+    background: -webkit-radial-gradient(center, ellipse cover,  $start-color 0%,$end-color 100%);
+    background: -o-radial-gradient(center, ellipse cover,  $start-color 0%,$end-color 100%);
+    background: -ms-radial-gradient(center, ellipse cover,  $start-color 0%,$end-color 100%);
+    background: radial-gradient(ellipse at center,  $start-color 0%,$end-color 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$start-color', endColorstr='$end-color',GradientType=1 );
+    }
+    }
+
+// Aplica efeito hover (ou ghost) ao button.
+// Uso: div { @include ghost-button(“Trebuchet”, 12px, #ffffff, 5px, #34dec6, 4px, 300ms, #000000 );}
+@mixin ghost-button($font-color, $border-size, $border-color, $transition-speed, $hover-color)
+ {
+ display:inline-block;
+
+ text-decoration:none;
+
+ color:$font-color;
+
+ border:$border-size solid $border-color;
+
+ -webkit-transition: color $transition-speed, background $transition-speed;
+
+ transition: color $transition-speed, background $transition-speed;
+
+ &:hover
+ 
+ {
+ background:$hover-color;
+ color:$font-color;
+ }
+ }
+
+
+
+ 
+@mixin box-shadow($level: 1, $background: black) {
+
+    @if $level == 1 { box-shadow: 0 1px   3px rgba(0,0,0,0.12), 0   1px 2px rgba($background,0.24) }
+
+    @else if $level == 2 { box-shadow: 0 3px   6px rgba(0,0,0,0.16), 0   3px 6px rgba($background,0.23) }
+
+    @else if $level == 3 { box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0   6px 6px rgba($background,0.23) }
+
+    @else if $level == 4 { box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba($background,0.22) }
+
+    @else if $level == 5 { box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba($background,0.22) }
+
+}

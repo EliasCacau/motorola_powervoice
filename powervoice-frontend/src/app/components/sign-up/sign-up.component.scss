@@ -1,0 +1,76 @@
+@use "../../../assets/scss/variable/variables" as variables;
+
+.background-radial-gradient {
+  background: rgb(0, 2, 54);
+  background: -moz-linear-gradient(88deg, rgba(0, 2, 54, 1) 0%, rgba(2, 0, 112, 1) 100%);
+  background: -webkit-linear-gradient(112deg, rgba(0, 2, 54, 1) 0%, rgba(2, 0, 112, 1) 100%);
+  background: linear-gradient(88deg, rgba(0, 2, 54, 1) 0%, rgba(2, 0, 112, 1) 100%);
+}
+
+#radius-shape-1 {
+  height: 220px;
+  width: 220px;
+  top: -80px;
+  left: -130px;
+  background-image: linear-gradient(-225deg, #ac32e4 0%, #7918f2 48%, #4801ff 100%);
+  overflow: hidden;
+}
+
+#radius-shape-2 {
+  border-radius: 38% 62% 63% 37% / 70% 33% 67% 30%;
+  bottom: -80px;
+  right: -80px;
+  width: 300px;
+  height: 300px;
+  background-image: linear-gradient(-280deg, #ff4d21 0%, #2142fd 100%);
+  overflow: hidden;
+}
+
+.bg-glass {
+  margin-top: 65px;
+  background-color: hsl(292deg 20% 90% / 70%) !important;
+  backdrop-filter: saturate(200%) blur(50px) !important;
+}
+
+.container-fluid {
+  max-width: 78rem;
+  min-height: 100vh;
+
+  span {
+    color: variables.$red-500;
+  }
+}
+
+.button-submit {
+  button[disabled] {
+    background-color: gray;
+    cursor: not-allowed;
+    border: none;
+  }
+}
+
+.erro-detalhes {
+  color: variables.$red-900;
+  font-size: 14px;
+  margin-left: 0.6em;
+}
+
+.ng-valid[required],
+.ng-valid.required {
+  border-left: 5px solid #42a948; /* green */
+}
+
+.ng-invalid:not(form) {
+  border-left: 5px solid #a94442; /* red */
+}
+
+
+@media (max-width: 992px) {
+  h1 {
+    text-align: center;
+
+  }
+  p {
+    text-align: center;
+  }
+}

@@ -1,0 +1,288 @@
+@use "../../../assets/scss/variable/variables" as variables;
+@use "../../../assets/scss/mixin/mixins.scss";
+
+
+.button-submit {
+  button {
+    background-color: variables.$red-500;
+    margin-top: 1rem !important;
+    font-size: 16px;
+    font-weight: 700;
+    border: 0;
+    color: white;
+
+    i {
+      font-size: 24px;
+    }
+    &:hover {
+      background-color: #ff4040;
+    }
+  }
+  }
+
+
+.bg-glass {
+  background-color: hsl(0deg 20% 90% / 70%) !important;
+  backdrop-filter: saturate(200%) blur(50px) !important;
+}
+// Cards das features
+.card-feature {
+  display: flex;
+  background-color: variables.$bg-white;
+  padding: 0;
+  min-height: 120px;
+  max-height: 200px;
+  margin-bottom: 30px;
+  overflow: hidden;
+  transition: 0.3s;
+  border-radius: 4px;
+
+  @include mixins.box-shadow(1);
+  @include mixins.hardware();
+
+  .header {
+    @include mixins.hardware();
+
+    .options {
+
+      i {
+        font-size: 24px;
+      }
+      .dropdown-toggle {
+        border: none !important;
+        padding: 0 10px 0 0;
+        margin-right: 5px;
+        @include mixins.hardware();
+
+
+      }
+      ::after {
+        display:none;
+      }
+
+      .dropdown-options {
+        .btn {
+          outline: none !important;
+          border: none;
+          box-shadow: none !important;
+          border-left: 5px solid variables.$red-500;
+          @include mixins.hardware();
+          
+          i{
+            font-size:18px;
+            color: variables.$red-800;
+          }
+          &:after {
+            transform: rotate(315deg);
+            display: block;
+            content: "";
+            width: 20px;
+            height: 20px;
+            border: 1px solid #bdbdbd;
+            position: absolute;
+            border-left: 0;
+            border-bottom: 0;
+            top: 0;
+            right: 10px;
+            margin-top: -11px;
+            background: #fff;
+            @include mixins.hardware();
+
+          }
+          &:active {
+            transform: translateY(1px);
+            @include mixins.hardware();
+
+          }
+        }
+      }
+      :focus {
+        outline: none;
+        box-shadow: none;
+      }
+    }
+    
+    p {
+      margin: 0;
+    }
+  }
+
+  .select{
+    padding: 20px;
+  }
+
+  .card-body {
+    transform: translateX(15px);
+    @include mixins.hardware();
+
+
+    .card-comment {    
+      .title {
+
+        h3 {
+          font-size: 16px;
+          font-weight: 700;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          margin-bottom: 0;
+  
+        }
+      }
+      .description {
+
+        h4 {
+          font-size: 16px;
+          font-weight: 500;
+          color: black;
+          overflow: hidden;
+          text-justify: auto;
+          word-wrap: break-word;
+
+        }
+      }
+    }
+  }
+
+  .likes {
+    @include mixins.hardware();
+
+    button {
+      min-width: 80%;
+      max-width: 90%;
+      background-color: variables.$gray-600;
+      border-color: transparent;
+      color: white;
+      transition: 0.2s;
+
+      #like-votation {
+
+        i {
+          font-size: 45px;
+        }
+
+        p {
+          font-weight: 700;
+        }
+      }
+      
+      &.liked {
+        background-color: variables.$dark-blue-300;
+        border-color: transparent;
+
+      }
+      &:hover {
+        background-color: variables.$dark-blue-300;
+        transition: 0.2s;
+      }
+      &:focus {
+        @include mixins.box-shadow(3);      
+        @include mixins.hardware();
+      }
+
+      &:active {
+        transform: translateY(-3px);
+        @include mixins.box-shadow(2);
+      }
+    }
+    
+  }
+  &:hover,&:focus {
+    transition: 0.3s;
+    @include mixins.box-shadow(2);
+    @include mixins.hardware();
+
+  }
+}
+
+.cadastrar-feature {
+  textArea {
+    height: 7rem;
+  }
+
+}
+
+.erro-detalhes {
+  color: variables.$red-900;
+  font-size: 14px;
+  margin-left: 0.6em;
+  position: absolute;
+}
+
+// Breakpoints
+@media (max-width: 576px) {
+  .card-feature {
+    margin-right: 0;
+  }
+  .header {
+    font-size: 12px;
+  }
+  .card-comment {    
+    .title {
+      h3 {
+        font-size: 12px !important;
+      }
+    }
+    .description {
+      h4 {
+        font-size: 12px !important;
+      }
+    }
+  } 
+}
+
+
+@media (max-width: 767px) {
+  .card-feature {
+    margin-right: 0;
+  }
+  .card-comment {    
+    .title {
+      h3 {
+        font-size: 16px;
+      }
+    }
+    .description {
+      h4 {
+        font-size: 12px !important;
+      }
+    }
+  } 
+}
+
+@media (max-width: 992px) {
+  .card-feature {
+    margin-right: 0;
+}
+.card-comment {    
+  .title {
+    h3 {
+      font-size: 16px;
+    }
+  }
+  .description {
+    h4 {
+      font-size: 12px !important;
+    }
+  }
+}
+}
+
+@media (max-width: 1200px) {
+  .card-feature {
+    margin-right: 0;
+
+    .card-comment {    
+      .title {
+        h3 {
+          font-size: 14px;
+        }
+      }
+      .description {
+        h4 {
+          font-size: 14px !important;
+        }
+      }
+    }
+
+}
+}

@@ -1,0 +1,433 @@
+<div id="wrapper">
+  <app-sidebar-admin></app-sidebar-admin>
+  <!-- Content Wrapper -->
+  <div id="content-wrapper" class="d-flex flex-column">
+    <app-loading></app-loading>
+    <!-- Alert component -->
+    <div class="d-flex justify-content-center w-100">
+      <div
+        class="alertas mt-5 sm-5 mt-md-5 mt-lg-0 col-10 col-sm-7 col-md-6 col-lg-5 d-flex justify-content-center row position-fixed"
+      >
+        <app-alerta></app-alerta>
+      </div>
+    </div>
+    <!-- Main Content -->
+    <div id="content">
+      <!-- Begin Page Content -->
+      <div class="container-fluid">
+        <!-- Page Heading -->
+        <h1 class="h3 mb-2 mt-4 text-gray-800">Publicações</h1>
+        <p class="mb-4">
+          Lista de Publicações cadastrados no sistema MotoVoice.
+        </p>
+        <!--  Modal cadastro de features -->
+        <ng-template #contentInsert let-c="close" let-d="dismiss">
+          <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">
+              Adicionar Feature
+            </h4>
+            <button
+              type="button"
+              class="btn-close"
+              aria-label="Close"
+              (click)="d('Cross click')"
+            ></button>
+          </div>
+          <div></div>
+
+          <div class="modal-body">
+            <div class="container">
+              <div class="row justify-content-center">
+                <div class="col-12">
+                  <article class="cadastrar-feature">
+                    <form
+                      (ngSubmit)="submit(form)"
+                      #form="ngForm"
+                      class="form-body"
+                    >
+                      <input
+                        type="hidden"
+                        name="id"
+                        [(ngModel)]="registro.id"
+                      />
+                      <div class="row">
+                        <div class="row align-items-center tip mb-3">
+                          <div class="form-floating col-12 col-md-6 col-lg-6">
+                            <select
+                              class="form-select mb-3"
+                              aria-label="Produto da publicação"
+                              id="produtoName"
+                              name="product"
+                              [(ngModel)]="registro.productId"
+                              required
+                              [compareWith]="compareById"
+                            >
+                              <option
+                                *ngFor="let item of productId"
+                                [ngValue]="item.id"
+                              >
+                                {{ item.name }}
+                              </option>
+                            </select>
+                            <label for="produtoName" class="px-4"
+                              >Produto</label
+                            >
+                          </div>
+
+                          <div class="form-floating col-12 col-md-6 col-lg-6">
+                            <select
+                              class="form-select mb-3"
+                              aria-label="Categoria da publicação"
+                              id="categoriaName"
+                              name="category"
+                              [(ngModel)]="registro.categoryId"
+                              required
+                              [compareWith]="compareById"
+                            >
+                              <option
+                                *ngFor="let item of categoryId"
+                                [ngValue]="item.id"
+                              >
+                                {{ item.category }}
+                              </option>
+                            </select>
+                            <label for="categoriaName" class="px-4"
+                              >Categoria</label
+                            >
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-floating col-12 mb-4">
+                        <input
+                          input
+                          type="text"
+                          class="form-control"
+                          id="tituloInput"
+                          placeholder="Insra o título da sua publicação"
+                          name="title"
+                          [(ngModel)]="registro.title"
+                          required
+                        />
+                        <label for="tituloInput" class="px-4"
+                          >Título da publicação</label
+                        >
+                      </div>
+
+                      <div class="form-floating col-12 mb-4">
+                        <textarea
+                          class="form-control"
+                          placeholder="Descreva sua ideia"
+                          id="descricaoTextArea"
+                          name="description"
+                          [(ngModel)]="registro.description"
+                          required
+                        ></textarea>
+                        <label for="descricaoTextArea" class="px-4"
+                          >Descrição</label
+                        >
+                      </div>
+                      <!-- Submit button -->
+                      <div class="button-submit d-flex justify-content-center">
+                        <button
+                          type="submit"
+                          id="refresh"
+                          class="btn btn-primary btn-block mb-0 w-25 mt-3"
+                          (click)="c('Save click')"
+                        >
+                          Cadastrar
+                        </button>
+                      </div>
+                    </form>
+                  </article>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+
+        <!--  Modal Alteração de features -->
+        <ng-template #contentUpdate let-c="close" let-d="dismiss">
+          <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">
+              Alteração de Feature
+            </h4>
+            <button
+              type="button"
+              class="btn-close"
+              aria-label="Close"
+              (click)="d('Cross click')"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="container">
+              <div class="row justify-content-center">
+                <div class="col-12">
+                  <article class="cadastrar-feature">
+                    <form
+                      (ngSubmit)="submit(form)"
+                      #form="ngForm"
+                      class="form-body"
+                    >
+                      <input
+                        type="hidden"
+                        name="id"
+                        [(ngModel)]="registroRecovered.id"
+                      />
+                      <input
+                        type="hidden"
+                        name="id"
+                        [(ngModel)]="registroRecovered.userId"
+                      />
+                      <div class="row">
+                        <!-- Autor + Data da publicação -->
+                        <div class="row align-items-center tip mb-3">
+                          <div
+                            class="form-floating col-12 col-md-6 col-lg-6 mb-3"
+                          >
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="autorInput"
+                              placeholder="Exibe o nome do Autor da publicação"
+                              [disabled]="true"
+                            />
+                            <label
+                              for="autorInput"
+                              *ngIf="registroRecovered.user"
+                              class="px-4"
+                              >Autor:
+                              {{registroRecovered.user.username }}
+                            </label>
+                          </div>
+
+                          <div
+                            class="form-floating col-12 col-md-6 col-lg-6 mb-3"
+                          >
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="publishDateInput"
+                              placeholder="Exibe a data da publicação"
+                              [disabled]="true"
+                            />
+                            <label for="publishDateInput" class="px-4"
+                              >Publicado em:
+                              {{registroRecovered.publishDate | date: "dd/MM/yyyy"}}
+                            </label>
+                          </div>
+                        </div>
+
+                        <!-- Produto + Categoria -->
+
+                        <div class="row align-items-center tip mb-3">
+                          <div class="form-floating col-12 col-md-6 col-lg-6">
+                            <select
+                              class="form-select mb-3"
+                              aria-label="Produto da publicação"
+                              id="produtoName"
+                              name="product"
+                              [(ngModel)]="registroRecovered.product"
+                              required
+                              [compareWith]="compareById"
+                            >
+                              <option
+                                *ngFor="let item of productId"
+                                [ngValue]="item"
+                              >
+                                {{ item.name }}
+                              </option>
+                            </select>
+                            <label for="produtoName" class="px-4"
+                              >Produto</label
+                            >
+                          </div>
+
+                          <div class="form-floating col-12 col-md-6 col-lg-6">
+                            <select
+                              class="form-select mb-3"
+                              aria-label="Categoria da publicação"
+                              id="categoriaName"
+                              name="category"
+                              [(ngModel)]="registroRecovered.category"
+                              required
+                              [compareWith]="compareById"
+                            >
+                              <option
+                                *ngFor="let item of categoryId"
+                                [ngValue]="item"
+                              >
+                                {{ item.category }}
+                              </option>
+                            </select>
+                            <label for="categoriaName" class="px-4"
+                              >Categoria</label
+                            >
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-floating col-12 mb-4">
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="tituloInput"
+                          placeholder="Insra o título da sua publicação"
+                          name="title"
+                          [(ngModel)]="registroRecovered.title"
+                          required
+                        />
+                        <label for="tituloInput" class="px-4"
+                          >Título da publicação</label
+                        >
+                      </div>
+
+                      <div class="form-floating col-12 mb-4">
+                        <textarea
+                          class="form-control"
+                          placeholder="Descreva sua ideia"
+                          id="descricaoTextArea"
+                          name="description"
+                          [(ngModel)]="registroRecovered.description"
+                          required
+                        ></textarea>
+                        <label for="descricaoTextArea" class="px-4"
+                          >Descrição</label
+                        >
+                      </div>
+                      <!-- Submit button -->
+                      <div class="button-submit d-flex justify-content-center">
+                        <button
+                          type="submit"
+                          id="refresh"
+                          class="btn btn-primary btn-block mb-0 w-25 mt-3"
+                          (click)="c('Save click')"
+                        >
+                          Alterar
+                        </button>
+                      </div>
+                    </form>
+                  </article>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+
+        <!-- Dados da Tabela -->
+        <div class="card shadow">
+          <div class="card-header py-3">
+            <!--Estou usando para teste-->
+            <h6 class="m-0 font-weight-bold text-primary">
+              Features Cadastradas
+            </h6>
+            <!-- Pesquisa -->
+            <div
+              class="row col-12 col-sm-11 col-md-11 col-lg-8 justify-content-sm-between"
+            >
+              <div
+                class="d-flex justify-content-center gap-3 gap-sm-0 justify-content-sm-evenly justify-content-lg-end flex-wrap flex-sm-nowrap"
+              >
+                <button
+                  class="btn btn-primary col-12 col-sm-6 col-md-6 col-lg-auto mr-lg-3 order-2 order-sm-1"
+                  (click)="open(contentInsert)"
+                >
+                  Adicionar Publicação
+                </button>
+                <div
+                  class="col-9 col-sm-7 col-md-6 col-lg-6 order-1 order-sm-2"
+                >
+                  <input
+                    id="table-complete-search"
+                    type="text"
+                    class="form-control"
+                    placeholder="Pesquisar"
+                    name="termoBusca"
+                    placeholder="Pesquisar"
+                    [(ngModel)]="termoBusca"
+                  />
+                </div>
+                <button
+                  class="btn btn-primary col-2 col-sm-1 col-md-1 col-lg-auto order-1 order-sm-2"
+                  role="status"
+                  aria-hidden="true"
+                  type="button"
+                  (click)="buscaRegistros(termoBusca)"
+                >
+                  <i
+                    class="spinner-border spinner-border-sm"
+                    *ngIf="servicoLoader.isLoading | async"
+                  ></i>
+                  <i
+                    class="bi bi-search"
+                    [hidden]="servicoLoader.isLoading | async"
+                  ></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive table-hover">
+              <table
+                class="table table-bordered text-center"
+                width="100%"
+                cellspacing="0"
+              >
+                <thead>
+                  <tr>
+                    <th>Ações</th>
+                    <th>ID</th>
+                    <th>Titulo da Feature</th>
+                    <th>Likes</th>
+                    <th>Produto</th>
+                    <th>Categoria</th>
+                    <th>Data</th>
+                    <th>Descrição</th>
+                    <th>Autor</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of registros">
+                    <td>
+                      <button
+                        class="btn btn-outline-primary me-1"
+                        (click)="open(contentUpdate); getFeature(item.id)"
+                      >
+                        <i class="bi bi-pen-fill"></i>
+                      </button>
+                      <button
+                        class="btn btn-outline-danger ms-1"
+                        (click)="delete(item.id, item.title)"
+                      >
+                        <i class="bi bi-trash3-fill"></i>
+                      </button>
+                    </td>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.title }}</td>
+                    <td>{{ item.likes }}</td>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.category.category }}</td>
+                    <td>{{ item.publishDate | date: "dd/MM/yyyy" }}</td>
+                    <td>{{ item.description }}</td>
+                    <td>{{ item.user.username }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="d-flex justify-content-center p-2">
+              <ngb-pagination
+                [collectionSize]="collectionSize"
+                [(page)]="page"
+                [maxSize]="5"
+                [pageSize]="pageSize"
+                [rotate]="true"
+                (pageChange)="refreshPages()"
+              >
+              </ngb-pagination>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,313 @@
+@use "../../../assets/scss/variable/variables" as variables;
+@use "../../../assets/scss/mixin/mixins.scss";
+
+// corrige z-index do modal de criação de features
+::ng-deep ngb-modal-backdrop {
+  z-index: 1050 !important;
+}
+
+.main {
+  max-width: 78rem;
+}
+
+#wrapper {
+  display: flex;
+  justify-content: center;
+  scroll-behavior: smooth;
+  min-height: 100vh;
+  background: rgb(0, 2, 54);
+  background: -moz-linear-gradient(88deg, rgba(0, 2, 54, 1) 0%, rgba(2, 0, 112, 1) 100%);
+  background: -webkit-linear-gradient(112deg, rgba(0, 2, 54, 1) 0%, rgba(2, 0, 112, 1) 100%);
+  background: linear-gradient(88deg, rgba(0, 2, 54, 1) 0%, rgba(2, 0, 112, 1) 100%);
+  overflow: hidden;
+  @include mixins.hardware();
+}
+
+#btn-back-to-top {
+  position: fixed;
+  bottom: 8%;
+  right: 12.5%;
+  background-color: variables.$red-500;
+  display: none;
+}
+
+#radius-shape-1 {
+  position: fixed !important;
+  height: 270px;
+  width: 270px;
+  bottom: 90px;
+  left: -120px;
+  background: linear-gradient(180deg, #6a11cb8f 0%, #2575fc 100%);
+  @include mixins.hardware();
+}
+
+#radius-shape-2 {
+  position: fixed !important;
+  width: 270px;
+  height: 270px;
+  right: 180px;
+  top: -90px;
+  background: linear-gradient(90deg, #6a11cb38 8.78%, #2575fc 100%);
+  @include mixins.hardware();
+}
+
+#radius-shape-3 {
+  position: fixed !important;
+  width: 200px;
+  height: 200px;
+  right: -80px;
+  bottom: -80px;
+  background-image: linear-gradient(-280deg, #ff4d219e 0%, #2142fd 100%);
+  @include mixins.hardware();
+}
+
+.bg-glass {
+  background-color: hsl(0deg 20% 90% / 70%) !important;
+  backdrop-filter: saturate(200%) blur(50px) !important;
+}
+
+.modal-header {
+  h4 {
+    font-size: 24px;
+    color: variables.$red-500;
+    font-weight: 700;
+  }
+}
+
+.cadastrar-feature {
+  textArea {
+    height: 7rem;
+  }
+
+  .button-submit {
+    button {
+      background-color: variables.$red-500;
+      margin-top: 1rem !important;
+      font-size: 16px;
+      font-weight: 700;
+      border: 0;
+      color: white;
+  
+      i {
+        font-size: 24px;
+      }
+      &:hover {
+        background-color: #ff4040;
+      }
+    }
+    }
+    
+}
+
+.container-fluid {
+  display: grid;
+  position: relative;
+  grid-template-columns: 75% 25%;
+  z-index: 10;
+  @include mixins.hardware();
+
+  .alertas {
+    top: 5rem;
+    z-index: 1100;
+  }
+  .top-section {
+    color: white;
+    @include mixins.hardware();
+
+    h2 {
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    h3 {
+      font-size: 20px;
+      font-weight: 500;
+    }
+  }
+
+  .ranking-section {
+    @include mixins.hardware();
+
+    h3 {
+      font-size: 24px;
+      font-weight: bold;
+      color: variables.$red-500;
+    }
+
+    .search-section {
+      @include mixins.hardware();
+      .filter-icon {
+        i {
+          font-size: 35px;
+          color: white;
+        }
+      }
+
+      .search-form {
+        @include mixins.hardware();
+
+        input {
+          background: white;
+          border: 0;
+          height: 100%;
+        }
+
+        select {
+          background: white;
+          border: 0;
+          padding: 0.8rem;
+          height: 100%;
+          font-size: 16px;
+        }
+
+        select:focus {
+          border: 0;
+        }
+
+        button {
+          background-color: white;
+          font-size: 16px;
+          transform: translateX(-5px);
+          border: none;
+        }
+
+        button i {
+          font-size: 20px;
+        }
+      }
+    }
+    .cards {
+      @include mixins.hardware();
+    }
+  }
+
+  .aside {
+    background-color: white;
+    max-width: 20rem;
+    min-height: 24rem;
+    max-height: 30rem;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 20px 30px;
+    @include mixins.hardware();
+  }
+
+  .row {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.erro-detalhes {
+  color: variables.$red-900;
+  font-size: 14px;
+  margin-left: 0.6em;
+  position: absolute;
+}
+
+// Breakpoints
+
+@media (max-width: 375px) {
+  .container {
+    padding: 0 !important;
+
+    .filter-icon {
+      display: none;
+    }
+    }
+  }
+
+@media (max-width: 576px) {
+  #radius-shape-1 {
+    height: 200px;
+    width: 200px;
+    bottom: 150px;
+    left: -120px;
+  }
+  #radius-shape-2 {
+    width: 190px;
+    height: 190px;
+    right: 40px;
+    top: -50px;
+  }
+  #radius-shape-3 {
+    width: 160px;
+    height: 160px;
+    right: -70px;
+    bottom: -20px;
+  }
+
+  .container-fluid {
+    display: flex;
+    grid-template-columns: none;
+
+    .top-section {
+      h2 {
+        font-size: 20px;
+      }
+
+      h3 {
+        font-size: 16px;
+      }
+    }
+
+      .filter-icon {
+        transform: translateX(-50px);
+        margin-top: 0.4rem;
+
+        i {
+          font-size: 28px !important;
+        }
+      }
+
+      .search-form {
+        select {
+          font-size: 14px;
+        }
+        input {
+          font-size: 14px;
+        }
+      }
+
+  }
+
+  .top10 {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .container-fluid {
+    display: flex;
+  }
+  .search-section {
+    span {
+      position: absolute;
+      left: 8%;
+    }
+  }
+}
+
+@media (max-width: 992px) {
+  .container-fluid {
+    display: flex;
+
+    .top10 {
+      display: none;
+    }
+  }
+  .erro-detalhes {
+    font-size: 12px !important;
+  }
+}
+
+@media (max-width: 1200px) {
+  .container-fluid {
+    .top10 {
+      .aside {
+        min-height: 20rem;
+        max-height: 28rem;
+        position: fixed;
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+
+  <div class="alert alert-white rounded">
+    <a type="button" data-dismiss="alert" class="close" id="fechar" (click)="fechaAlerta()">×</a>
+    <div class="icon">
+      <i [hidden]="tipoAlerta.tipo != 'erro'" class="bi bi-x-circle-fill"></i>
+      <i [hidden]="tipoAlerta.tipo != 'sucesso'" class="bi bi-check-lg"></i>
+      <i [hidden]="tipoAlerta.tipo != 'aviso'" class="bi bi-exclamation-diamond-fill"></i>
+      <i [hidden]="tipoAlerta.tipo != 'info'" class="bi bi-info-lg"></i>
+
+    </div>
+    <span id="mensagem"></span>
+  </div> 

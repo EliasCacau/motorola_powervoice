@@ -1,0 +1,202 @@
+<header id="navigation" class="fixed-top">
+  <div class="container-fluid">
+    <nav
+      class="navbar navbar-expand-lg navbar-dark py-2"
+      aria-label="MotoVoice"
+    >
+      <div class="side-nav-button text-light">
+        <!-- Abre o menu lateral do header -->
+        <button class="btn me-4" (click)="openCustomPanelClass(content)">
+          <i class="bi bi-list"></i>
+        </button>
+      </div>
+      <div class="logo">
+        <a class="navbar-brand d-flex gap-4 align-items-center" routerLink="/">
+          <img
+            src="../../../assets/img/logo.svg"
+            width="40"
+            class="img-fluid"
+            height="40"
+            alt="MotoVoice"
+          />
+          <h1>MotoVoice</h1>
+        </a>
+      </div>
+      <!-- Menu lateral -->
+      <ng-template #content let-offcanvas>
+        <div class="offcanvas-header">
+          <img
+            src="../assets/img/logo.svg"
+            width="40"
+            height="40"
+            class="img-fluid"
+            alt="MotoVoice"
+          />
+          MotoVoice
+          <button
+            type="button"
+            class="btn-close btn-close-white"
+            aria-label="Close"
+            (click)="offcanvas.dismiss('Cross click')"
+          ></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="navbar-nav text-center">
+            <li class="nav-item active">
+              <a
+                class="nav-link"
+                routerLink="/features"
+                (click)="offcanvas.close()"
+              >
+                <i class="bi bi-hand-thumbs-up"></i>
+                Features mais votadas
+              </a>
+            </li>
+            <li
+              class="nav-item"
+              *ngIf="
+                isAutenticado() && getUsuarioAutenticado().role === 'ROLE_ADMIN'
+              "
+            >
+              <a
+                class="nav-link"
+                routerLink="/admin/features-admin"
+                (click)="offcanvas.close()"
+              >
+                <i class="bi bi-tools"></i>
+                Administrador
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Aparece na responsividade mobile -->
+        <div class="offcanvas-footer">
+          <button
+            type="button"
+            routerLink="/login"
+            class="btn btn-outline-light"
+            *ngIf="!isAutenticado()"
+            (click)="offcanvas.close()"
+          >
+            <i class="bi bi-person-fill"></i>
+            Login
+          </button>
+          <button
+            type="button"
+            routerLink="/sign-up"
+            class="btn btn btn-outline-light"
+            *ngIf="!isAutenticado()"
+            (click)="offcanvas.close()"
+          >
+            <i class="bi bi-person-plus-fill"></i>
+            Cadastre-se
+          </button>
+        </div>
+      </ng-template>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto text-center" id="nav">
+          <li class="nav-item active">
+            <a class="nav-link" routerLink="/features">
+              <i class="bi bi-hand-thumbs-up"></i>
+              Features mais votadas</a
+            >
+          </li>
+          <li
+            class="nav-item active"
+            *ngIf="
+              isAutenticado() && getUsuarioAutenticado().role === 'ROLE_ADMIN'
+            "
+          >
+            <a class="nav-link" routerLink="/admin/features-admin">
+              <i class="bi bi-tools"></i>
+              Administrador
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="row" *ngIf="isAutenticado()">
+        <div class="col">
+          <div ngbDropdown placement="bottom-right" class="menu-login">
+            <button
+              type="button"
+              class="btn btn-menu"
+              id="dropdownBasic1"
+              ngbDropdownToggle
+            >
+              <i class="bi bi-person-circle"></i>
+              <span>{{ getUsuarioAutenticado().username }}</span>
+            </button>
+            <div
+              ngbDropdownMenu
+              aria-labelledby="dropdownBasic2"
+              class="dropdown-menu"
+            >
+              <button class="btn btn-outline" routerLink="/user-profile">
+                <i class="bi bi-person-circle"></i>
+                Profile
+              </button>
+              <button class="btn btn-outline-danger" (click)="logout()">
+                <i class="bi bi-box-arrow-in-right"></i>
+                Logout
+              </button>
+            </div>
+          </div>
+
+          <!-- Aparece na responsividade mobile -->
+          <div ngbDropdown placement="bottom-right" class="menu-login-mobile">
+            <button
+              type="button"
+              class="btn btn-outline-light"
+              id="dropdownBasic1"
+              ngbDropdownToggle
+            >
+              <i class="bi bi-person-circle"></i>
+            </button>
+            <div
+              ngbDropdownMenu
+              aria-labelledby="dropdownBasic2"
+              class="dropdown-menu"
+            >
+              <span
+                class="d-flex flex-column justify-content-center align-items-center mb-2"
+              >
+                Bem vindo,
+                <strong> {{ getUsuarioAutenticado().username }}! </strong></span
+              >
+              <button class="btn btn-outline" routerLink="/user-profile">
+                <i class="bi bi-person-circle"></i>
+                Profile
+              </button>
+              <button class="btn btn-outline-danger" (click)="logout()">
+                <i class="bi bi-box-arrow-in-right"></i>
+                Logout
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mx-2" *ngIf="!isAutenticado()">
+        <div class="col-5">
+          <div class="menu-login mx-1">
+            <button type="button" routerLink="/login" class="btn btn-menu">
+              <i class="bi bi-person-fill"></i>
+              <span>Login</span>
+            </button>
+          </div>
+        </div>
+        <div class="col-7">
+          <div class="menu-login mx-1">
+            <button type="button" routerLink="/sign-up" class="btn btn-menu">
+              <i class="bi bi-person-plus-fill"></i>
+              <span>Cadastre-se</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>

@@ -1,0 +1,82 @@
+@use "../../../../assets/scss/variable/variables" as variables;
+@use "../../../../assets/scss/mixin/mixins.scss";
+
+::ng-deep ngb-modal-backdrop {
+  z-index: 1050 !important;
+}
+
+.card-body {
+  flex: 1 1 auto;
+  min-height: 1px;
+  padding: 1.25rem;
+}
+
+#wrapper {
+  margin-top: 65px;
+  display: flex;
+  .alertas {
+    top: 5rem;
+    z-index: 1100;
+  }
+  #content-wrapper {
+    background-color: variables.$gray-100;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    #content {
+      flex: 1 0 auto;
+    }
+  }
+}
+
+.container-fluid {
+  padding-left: 30px;
+  padding-right: 30px;
+
+  .card-header {
+    @include mixins.flex-between;
+    align-items: center;
+  }
+
+  .table-responsive {
+    white-space: nowrap;
+    .table {
+      td {
+        @include mixins.truncate(500px);
+      }
+    }
+  }
+}
+
+.container {
+
+  #modal-cadastro {
+    button {
+      margin-right: 15%;
+      font-size: 16px;
+    }
+  }
+
+  .row {
+    margin: 0;
+    padding: 0;
+
+    #descricaoTextArea {
+      height: 100px;
+    }
+  }
+}
+
+@media (max-width: 992px) {
+  #wrapper {
+    display: flex;
+    flex-direction: column !important;
+    #content {
+      min-height: 100vh;
+    }
+  }    .card-header {
+    align-items: center;
+    flex-direction: column;
+    gap: 1.5em;
+  }
+}

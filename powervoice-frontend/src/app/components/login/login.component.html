@@ -1,0 +1,121 @@
+<app-loading></app-loading>
+<section class="background-radial-gradient overflow-hidden">
+  <div class="container-fluid px-2 py-5 text-start my-md-5 my-lg-5">
+    <div class="row gx-lg-5 px-4  align-items-center">
+      <div class="col-lg-5 ms-lg-5 mb-5 mb-lg-0 px-md-5 px-lg-4">
+        <h1 class="my-5 display-5 fw-bold ls-tight" style="color: #e8effd">
+          MotoVoice <br />
+          <span>Feito para nossa comunidade</span>
+        </h1>
+        <p class="mb-4 opacity-70" style="color: #bad0f8">
+          Acreditamos sempre na parceria com a nossa comunidade para melhorar os
+          próximos lançamentos.
+        </p>
+      </div>
+      <div class="col-lg-6 mb-5 mb-lg-0 position-relative">
+        <div
+          id="radius-shape-1"
+          class="position-absolute rounded-circle shadow-5-strong"
+        ></div>
+        <div
+          id="radius-shape-2"
+          class="position-absolute shadow-5-strong"
+        ></div>
+
+        <div class="card bg-glass">
+          <div class="card-body px-4 py-5 px-md-5">
+            <!-- Logo  -->
+            <div class="text-center">
+              <img
+                src="../assets/img/logo-black.svg"
+                style="width: 70px"
+                alt="logo"
+              />
+              <h4 class="mt-4 mb-4 pb-1">Login</h4>
+            </div>
+
+            <app-alerta></app-alerta>
+
+            <form (ngSubmit)="submit(form)" #form="ngForm" class="form-body">
+              <!-- Usuario input -->
+              <div class="form-floating col-12 mb-4">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="passwordInput"
+                  placeholder="Usuario"
+                  name="nomeUsuario"
+                  [(ngModel)]="usuario.username"
+                  required
+                />
+                <label for="nomeUsuario" name="password" class="px-4"
+                  >Usuario</label
+                >
+              </div>
+
+              <!-- Senha input -->
+              <div class="form-floating col-12 mb-4">
+                <input
+                  type="password"
+                  class="form-control"
+                  id="senhaUsuario"
+                  placeholder="Senha"
+                  name="password"
+                  [(ngModel)]="usuario.password"
+                  required
+                />
+                <label for="senhaUsuario" name="password" class="px-4"
+                  >Senha</label
+                >
+              </div>
+
+              <!-- Submit button -->
+              <div class="button-submit col-12 text-center">
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-block mb-4 w-100"
+                >
+                  Login
+                </button>
+              </div>
+
+              <!-- Register new Account -->
+              <div
+                class="d-flex align-items-center justify-content-center pb-4 mt-4"
+              >
+                <p class="mb-0 me-2">Ainda não tem uma conta?</p>
+                <button
+                  type="button"
+                  routerLink="/sign-up"
+                  class="btn btn btn-outline-primary p-1"
+                >
+                  Cadastre-se
+                </button>
+              </div>
+
+              <ng-template #content let-c="close" let-d="dismiss">
+                <div class="modal-header">
+                  <button
+                    type="button"
+                    class="btn-close"
+                    aria-label="Close"
+                    (click)="d('Cross click')"
+                  ></button>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-outline-dark"
+                    (click)="c('Save click')"
+                  >
+                    Save
+                  </button>
+                </div>
+              </ng-template>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

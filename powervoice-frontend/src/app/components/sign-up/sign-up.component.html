@@ -1,0 +1,398 @@
+<app-loading></app-loading>
+<section class="background-radial-gradient overflow-hidden">
+  <div class="container-fluid p-0 py-5 my-md-5 my-lg-5">
+    <div class="row gx-lg-5 px-4 px-lg-0 align-items-center">
+      <div class="col-lg-5 ms-lg-5 mb-5 mb-lg-0 px-md-5">
+        <h1 class="my-5 display-5 fw-bold ls-tight" style="color: #e8effd">
+          MotoVoice <br />
+          <span>Feito para nossa comunidade</span>
+        </h1>
+        <p class="mb-4 opacity-70" style="color: #bad0f8">
+          Ao se cadastrar, você poderá publicar sua ideia para produtos e funcionalidades Motorola.
+          Conforme sua publicação recebe engajamento, mais no topo do ranking ela fica.
+          Já imaginou se sua ideia vira um produto ou funcionalidade Motorola?
+        </p>
+      </div>
+
+      <div class="col-lg-6 mb-0 mb-lg-0 px-md-3 position-relative">
+        <div
+          id="radius-shape-1"
+          class="position-absolute rounded-circle shadow-5-strong"
+        ></div>
+        <div
+          id="radius-shape-2"
+          class="position-absolute shadow-5-strong"
+        ></div>
+        <div class="card bg-glass">
+          <div class="row px-0 py-5 px-5">
+            <!-- Logo  -->
+            <div class="text-center">
+              <img
+                src="../assets/img/logo-black.svg"
+                style="width: 70px"
+                alt="logo"
+              />
+              <h4 class="mt-4 mb-4 pb-1">
+                Cadastre-se
+              </h4>
+            </div>
+            <app-alerta></app-alerta>
+            <form
+              #f = "ngForm"
+              (ngSubmit)="submit(signUpForm)"
+              #signUpForm="ngForm"
+              class="form-body"
+              novalidate
+              [appMatchPassword]="['password', 'confirmPassword']"
+            >
+              <input type="hidden" name="id" [(ngModel)]="registro.id" />
+              <div class="row">
+                <!-- Nome de usuário input -->
+                <div class="form-floating col-12 col-md-12 mb-3">
+                  <input
+                    input
+                    type="text"
+                    class="form-control ng-pristine"
+                    id="userNameInput"
+                    minlength="5"
+                    maxlength="20"
+                    pattern="^[a-zA-Z0-9]+([a-zA-Z0-9](_|-| )[a-zA-Z0-9])*[a-zA-Z0-9]+$"
+                    placeholder="Insira um nome de usuário"
+                    name="username"
+                    [(ngModel)]="registro.username"
+                    #username="ngModel"
+                    appVerificaUsuario
+                    required
+                  />
+                  <label for="userNameInput" name="username" class="px-4"
+                    >Usuário</label
+                  >
+                  <!-- Error message -->
+                  <div
+                    *ngIf="username.errors?.['required'] && (username.dirty || username.touched)"
+                    class="erro-detalhes"
+                  >
+                    Campo obrigatório.
+                  </div>
+                  <div
+                    *ngIf="username.errors?.['minlength']"
+                    class="erro-detalhes"
+                  >
+                    Informe ao menos
+                    {{username.errors?.['minlength'].requiredLength}}
+                    caracteres.
+                  </div>
+                  <div
+                    *ngIf="username.errors?.['pattern']"
+                    class="erro-detalhes"
+                  >
+                    Nome de usuario não pode conter caracteres especiais.
+                  </div>
+                  <div *ngIf="username.errors?.['appVerificaUsuario']" class="erro-detalhes">
+                    Nome de usuário indisponível.
+                  </div>
+                </div>
+
+                <!-- Senha input -->
+                <div class="form-floating col-12 col-md-6 mb-3">
+                  <input
+                    type="password"
+                    class="form-control ng-pristine"
+                    id="passwordInput"
+                    pattern="^(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z0-9\s\+-=;:,.!@#$%^*|&?]{8,}$"
+                    minlength="8"
+                    maxlength="32"
+                    placeholder="Password"
+                    name="password"
+                    #password="ngModel"
+                    [(ngModel)]="form.password"
+                    [ngClass]="{ 'is-invalid': password.errors }"
+                    required
+                  />
+                  <label for="passwordInput" name="password" class="px-4"
+                    >Senha</label
+                  >
+                  <!-- Error message -->
+                  <div
+                    *ngIf="password.errors?.['required'] && (password.dirty || password.touched)"
+                    class="erro-detalhes"
+                  >
+                    Campo obrigatório.
+                  </div>
+                  <div
+                    *ngIf="password.errors?.['minlength']"
+                    class="erro-detalhes"
+                  >
+                    A senha deve conter no mínimo
+                    {{password.errors?.['minlength'].requiredLength}}
+                    caracteres.
+                  </div>
+                  <div
+                    *ngIf="password.errors?.['pattern']"
+                    class="erro-detalhes"
+                  >
+                    A senha deve possuir letras e números.
+                  </div>
+
+                </div>
+                <!-- Confirma Senha -->
+                <div class="form-floating col-12 col-md-6 mb-3">
+                  <input
+                    type="password"
+                    class="form-control ng-pristine"
+                    id="passwordInput"
+                    pattern="^(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z0-9\s\+-=;:,.!@#$%^*|&?]{8,}$"
+                    minlength="8"
+                    maxlength="32"
+                    placeholder="Password"
+                    name="confirmPassword"
+                    #confirmPassword="ngModel"
+                    [(ngModel)]="form.confirmPassword"
+                    [ngClass]="{ 'is-invalid': confirmPassword.errors }"
+                    required
+                  />
+                  <label for="passwordInput" name="password" class="px-4"
+                    >Confirmar senha</label
+                  >
+                  <!-- Error message -->
+                  <div
+                    *ngIf="confirmPassword.errors?.['required'] && (confirmPassword.dirty || confirmPassword.touched)"
+                    class="erro-detalhes"
+                  >
+                    Campo obrigatório.
+                  </div>
+                  <div
+                    *ngIf="confirmPassword.errors?.['minlength']"
+                    class="erro-detalhes"
+                  >
+                    A senha deve conter no mínimo
+                    {{password.errors?.['minlength'].requiredLength}}
+                    caracteres.
+                  </div>
+                  <div
+                    *ngIf="confirmPassword.errors?.['pattern']"
+                    class="erro-detalhes"
+                  >
+                    A senha deve conter letras e números.
+                  </div>
+                  <div *ngIf="confirmPassword.errors?.['matching']" class="erro-detalhes">
+                    As senhas não coincidem.
+                  </div>
+                </div>
+
+                <!-- Email input -->
+                <div class="form-floating col-12 mb-3">
+                  <input
+                    type="email"
+                    id="email"
+                    class="form-control ng-pristine"
+                    name="email"
+                    pattern="[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+                    #email="ngModel"
+                    placeholder="you@example.com"
+                    [(ngModel)]="form.email"
+                    required
+                    appVerificaEmail
+                    [ngClass]="{ 'is-invalid': email.errors }"
+
+                  />
+                  <label for="email" class="px-4">E-mail</label>
+                  <div
+                    *ngIf="email.errors?.['required'] && (email.dirty || email.touched)"
+                    class="erro-detalhes"
+                  >
+                    Campo obrigatório.
+                  </div>
+                  <div *ngIf="email.errors?.['pattern']" class="erro-detalhes">
+                    Insira um e-mail válido.
+                  </div>
+                  <div *ngIf="email.errors?.['appVerificaEmail']" class="erro-detalhes">
+                    E-mail já cadastrado.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Nome completo input -->
+              <div class="form-floating mb-3">
+                <input
+                  type="text"
+                  class="form-control ng-pristine"
+                  id="nomeCompletoInput"
+                  pattern="^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$"
+                  placeholder="Seu nome"
+                  name="name"
+                  #name="ngModel"
+                  [(ngModel)]="registro.name"
+                  required
+                />
+                <label for="nomeCompletoInput" name="name">Nome completo</label>
+                <div
+                  *ngIf="name.errors?.['required'] && (name.dirty || name.touched)"
+                  class="erro-detalhes"
+                >
+                  Nome é obrigatório
+                </div>
+                <div *ngIf="name.errors?.['pattern']" class="erro-detalhes">
+                  O nome não pode conter números ou caracteres especiais.
+                </div>
+              </div>
+
+              <!-- Data de nascimento input -->
+              <div class="form-floating col-12 mb-3 p-0">
+                <input
+                  type="date"
+                  id="birthDateInput"
+                  class="form-control text-md-start ng-pristine"
+                  #birthDate="ngModel"
+                  name="birthDate"
+                  max="9999-12-31"
+                  [(ngModel)]="registro.birthDate"
+                  required
+                />
+                <label for="birthDateInput">Data de Nascimento</label>
+                <div
+                  *ngIf="birthDate.errors?.['required'] && (birthDate.dirty || birthDate.touched)"
+                  class="erro-detalhes"
+                >
+                  Campo obrigatório.
+                </div>
+              </div>
+              <!-- Sex input -->
+              <div class="form-floating col-12 mb-3 p-0">
+                <select
+                  class="form-select mb-3 ng-pristine"
+                  id="generoSelect"
+                  name="sex"
+                  #sex="ngModel"
+                  [(ngModel)]="registro.sex"
+                  required
+                >
+                  <option value="Masculino">Masculino</option>
+                  <option value="Feminino">Feminino</option>
+                  <option value="Indefinido">Indefinido</option>
+                </select>
+                <label for="countrySelect">Genero</label>
+                <div
+                  *ngIf="sex.errors?.['required'] && (sex.dirty || sex.touched)"
+                  class="erro-detalhes"
+                >
+                  Campo obrigatório.
+                </div>
+              </div>
+
+              <div class="row">
+                <!-- Phone input -->
+                <div class="form-floating col-12 mb-3">
+                  <input
+                    type="text"
+                    id="phone"
+                    mask="(00) 00000-0000"
+                    [dropSpecialCharacters]="false"
+                    class="form-control ng-pristine"
+                    name="phone"
+                    #phone="ngModel"
+                    placeholder="(68) 99999-9999"
+                    [(ngModel)]="registro.phone"
+                    required
+                  />
+                  <label for="phone" class="px-4">Celular</label>
+                  <div
+                    *ngIf="phone.errors?.['required'] && (phone.dirty || phone.touched)"
+                    class="erro-detalhes"
+                  >
+                    Campo obrigatório.
+                  </div>
+                  <div *ngIf="phone.errors?.['pattern']" class="erro-detalhes">
+                    Insira um número válido.
+                  </div>
+                </div>
+                <!-- Região Input -->
+                <div class="form-floating col-6">
+                  <select
+                    class="form-select mb-3 ng-pristine"
+                    id="countrySelect"
+                    name="country"
+                    #Country="ngModel"
+                    (change)="setState()"
+                    [(ngModel)]="registro.country"
+                    required
+                    [compareWith]="compareById"
+                  >
+                    <option *ngFor="let item of country" [ngValue]="item">
+                      {{item.namePt}}
+                    </option>
+                  </select>
+                  <label for="countrySelect" class="px-4">Região</label>
+                  <div
+                    *ngIf="Country.errors?.['required'] && (Country.dirty || Country.touched)"
+                    class="erro-detalhes"
+                  >
+                    Campo obrigatório.
+                  </div>
+                </div>
+                <!-- Estado input -->
+                <div class="form-floating col-6">
+                  <select
+                    class="form-select mb-3 ng-pristine"
+                    id="stateSelect"
+                    name="state"
+                    #State="ngModel"
+                    (change)="setCity()"
+                    [(ngModel)]="registro.state"
+                    required
+                    [compareWith]="compareById"
+                  >
+                    <option *ngFor="let item of state" [ngValue]="item">
+                      {{item.name}}
+                    </option>
+                  </select>
+                  <label for="stateSelect" class="px-4">Estado</label>
+                  <div
+                    *ngIf="State.errors?.['required'] && (State.dirty || State.touched)"
+                    class="erro-detalhes"
+                  >
+                    Campo obrigatório.
+                  </div>
+                </div>
+
+                <!-- Cidade Input -->
+                <div class="form-floating col-12 mb-3">
+                  <select
+                    class="form-select mb-3 ng-pristine"
+                    id="citySelect"
+                    name="city"
+                    #City="ngModel"
+                    [(ngModel)]="registro.city"
+                    required
+                    [compareWith]="compareById"
+                  >
+                    <option *ngFor="let item of city" [ngValue]="item">
+                      {{item.name}}
+                    </option>
+                  </select>
+                  <label for="citySelect" class="px-4">Cidade</label>
+                  <div
+                    *ngIf="City.errors?.['required'] && (City.dirty || City.touched)"
+                    class="erro-detalhes"
+                  >
+                    Campo obrigatório.
+                  </div>
+                </div>
+              </div>
+              <!-- Submit button -->
+              <div class="button-submit text-center">
+                <button
+                  type="submit"
+                  [disabled]="signUpForm.invalid"
+                  class="btn btn-primary btn-block mb-3 w-100"
+                >
+                  Cadastrar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

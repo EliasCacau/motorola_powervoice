@@ -1,0 +1,13 @@
+{
+    "id": 1,
+    "name": "Alisson2",
+    "sex": "Masculino",
+    "username": "amlxd1",
+    "password": 12345,
+    "email": "alisso2nM.l@hotmail.com",
+    "phone": "68999124106",
+    "birthDate": "2022-08-30",
+    "country": {"id": 1},
+    "state": {"id": 1},
+    "city": {"id": 1}
+  }

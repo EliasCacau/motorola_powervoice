@@ -1,0 +1,122 @@
+/* Alerta */
+
+div.alert {
+  display: none;
+  position: relative;
+  min-width: auto;
+  max-width: auto;
+  min-height: auto;
+  max-height: auto;
+
+  span {
+    font-weight: 500;
+  }
+}
+
+.alert-white {
+  background-image: linear-gradient(to bottom, #fff, #f9f9f9);
+  border-top-color: #d8d8d8;
+  border-bottom-color: #bdbdbd;
+  border-left-color: #cacaca;
+  border-right-color: #cacaca;
+  color: #404040;
+  padding-left: 61px;
+  position: relative;
+  .rounded {
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    .icon {
+      border-radius: 3px 0 0 3px;
+      -webkit-border-radius: 3px 0 0 3px;
+    }
+  }
+  .icon {
+    text-align: center;
+    width: 45px;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 1px solid #bdbdbd;
+    padding-top: 15px;
+    i {
+      font-size: 20px;
+      color: #fff;
+      left: 12px;
+      margin-top: -15px;
+      position: absolute;
+      top: 50%;
+    }
+    &:after {
+      -webkit-transform: rotate(45deg);
+      -moz-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      -o-transform: rotate(45deg);
+      transform: rotate(45deg);
+      display: block;
+      content: "";
+      width: 10px;
+      height: 10px;
+      border: 1px solid #bdbdbd;
+      position: absolute;
+      border-left: 0;
+      border-bottom: 0;
+      top: 50%;
+      right: -6px;
+      margin-top: -3px;
+      background: #fff;
+    }
+  }
+}
+
+.alert-white.alert.erro .icon,
+.alert-white.alert.erro .icon:after {
+  border-color: #ca452e;
+  background: #da4932;
+}
+
+.alert-white.alert.sucesso .icon,
+.alert-white.alert.sucesso .icon:after {
+  border-color: #54a754;
+  background: #60c060;
+}
+
+.alert-white.alert.aviso .icon,
+.alert-white.alert.aviso .icon:after {
+  border-color: #d68000;
+  background: #fc9700;
+}
+
+.alert-white.alert.info .icon,
+.alert-white.alert.info .icon:after {
+  border-color: #3a8ace;
+  background: #4d90fd;
+}
+
+div.alert.erro {
+  display: block;
+  background-color: #f2dede;
+  border-color: #e0b1b8;
+  color: #b94a48;
+}
+
+div.alert.sucesso {
+  display: block;
+  color: #3c763d;
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+}
+
+div.alert.aviso {
+  display: block;
+  color: #b87004;
+  background-color: #dff0d8;
+  border-color: #e6e9c6;
+}
+
+div.alert.info {
+  display: block;
+  color: #2068a7;
+  background-color: #d8ebf0;
+  border-color: #c6c8e9;
+}

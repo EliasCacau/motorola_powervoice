@@ -1,0 +1,339 @@
+@use "../../../assets/scss/variable/_variables.scss" as variables;
+@use "../../../assets/scss/mixin/_mixins.scss";
+
+// offcanvas menu sidebar
+.offcanvas {
+    background-color: variables.$dark-blue-800 !important;
+    .offcanvas-header {
+        color: white !important;
+        font-size: 20px;
+        border-bottom: 1px solid variables.$dark-blue-700;
+
+        .btn-close {
+            box-shadow: none;
+
+            &:hover {
+                color: variables.$dark-blue-900;
+                opacity: 0.5;
+                transition: 0.3s;
+            }
+        }
+    }
+    .offcanvas-body {
+        margin: 20px 0px 20px 0px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 24px;
+
+        .nav-item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            padding: 10px;
+            font-size: 16px;
+            position: relative;
+            margin: 0 10px;
+
+            &::before {
+                content: "";
+                position: absolute;
+                width: 100%;
+                height: 2px;
+                bottom: 0;
+                left: 0;
+                background-color: variables.$dark-blue-300;
+                visibility: hidden;
+                transform: scaleX(0);
+                transition: all 0.3s ease-in-out 0s;
+            }
+            &:hover {
+                &::before {
+                    visibility: visible;
+                    transform: scaleX(1);
+                }
+            }
+
+            i {
+                font-size: 20px;
+                margin-right: 5px;
+            }
+        }
+    }
+
+    .offcanvas-footer {
+        display: none !important;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 40px;
+
+        button {
+            width: 50%;
+        }
+    }
+}
+
+#navigation {
+    z-index: 1000;
+    background-color: variables.$dark-blue-800;
+    z-index: 1000;
+
+    .logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 1rem;
+        h1 {
+            padding-top: 5px;
+            font-size: 24px;
+            color: white;
+            font-weight: 700;
+        }
+    }
+    .nav-item {
+        position: relative;
+        margin: 0 20px;
+
+        &::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: variables.$dark-blue-300;
+            visibility: hidden;
+            transform: scaleX(0);
+            transition: all 0.3s ease-in-out 0s;
+        }
+        &:hover {
+            &::before {
+                visibility: visible;
+                transform: scaleX(1);
+            }
+        }
+        i {
+            font-size: 20px;
+            margin-right: 5px;
+        }
+    }
+
+    .side-nav-button {
+        display: none;
+        align-items: center;
+        // elemento filho de side-nav-button
+        .btn {
+            outline: none !important;
+            box-shadow: none;
+            border: 0;
+
+            i {
+                font-size: 30px;
+                transition: 0.5s;
+                color: variables.$bg-white;
+                transition: 0.3s;
+            }
+            &:hover {
+                transform: translateX(3px);
+                transition: 0.3s;
+            }
+        }
+    }
+
+    a {
+        font-size: 18px;
+    }
+
+    .dropdown-menu {
+        min-width: 100%;
+        animation: rotateMenu 400ms ease-in-out forwards;
+        transform-origin: top center;
+
+        @keyframes rotateMenu {
+            0% {
+                transform: rotateX(-90deg);
+            }
+            70% {
+                transform: rotateX(20deg);
+            }
+            100% {
+                transform: rotateX(0deg);
+            }
+        }
+    }
+
+    .menu-login {
+        transition: 0.4s;
+        align-items: center;
+        margin-left: 10px;
+        @include mixins.flex-between;
+
+        .dropdown-menu {
+            margin-top: 15px;
+            width: 100%;
+            .btn {
+                width: 100%;
+            }
+            &:after {
+                transform: rotate(315deg);
+                display: block;
+                content: "";
+                width: 20px;
+                height: 20px;
+                border: 1px solid #bdbdbd;
+                position: absolute;
+                border-left: 0;
+                border-bottom: 0;
+                top: 0;
+                right: 10px;
+                margin-top: -11px;
+                background: #fff;
+            }
+        }
+
+        .btn {
+            width: hidden;
+            outline: none !important;
+            border: none !important;
+            box-shadow: none !important;
+            border-radius: 10px;
+            font-size: 18px;
+            gap: 10px;
+            @include mixins.flex-center;
+
+            a {
+                text-decoration: none;
+            }
+
+            i {
+                font-size: 20px;
+            }
+            &:active,
+            &:focus,
+            &:hover {
+                color: variables.$dark-blue-900;
+                background-color: transparent !important;
+                outline: none !important;
+                box-shadow: none !important;
+            }
+            &.btn-menu {
+                color: white;
+            }
+        }
+
+        &::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: variables.$dark-blue-300;
+            visibility: hidden;
+            transform: scaleX(0);
+            transition: all 0.3s ease-in-out 0s;
+        }
+        &:hover {
+            &::before {
+                visibility: visible;
+                transform: scaleX(1);
+            }
+        }
+    }
+
+    .menu-login-mobile {
+        display: none;
+        transition: 0.4s;
+        align-items: center;
+        .dropdown-menu {
+            margin: 15px 10px 0 -50px;
+            .btn {
+                width: 100%;
+            }
+
+            &:after {
+                transform: rotate(315deg);
+                display: block;
+                content: "";
+                width: 20px;
+                height: 20px;
+                border: 1px solid #bdbdbd;
+                position: absolute;
+                border-left: 0;
+                border-bottom: 0;
+                top: 0;
+                right: 10px;
+                margin-top: -11px;
+                background: #fff;
+            }
+        }
+
+        .btn {
+            outline: none !important;
+            border: none !important;
+            box-shadow: none !important;
+            border-radius: 10px;
+            font-size: 18px;
+            gap: 10px;
+            @include mixins.flex-center;
+
+            a {
+                text-decoration: none;
+            }
+
+            i {
+                font-size: 25px;
+            }
+            &:active,
+            &:focus,
+            &:hover {
+                color: variables.$dark-blue-900;
+                background-color: variables.$white;
+                outline: none !important;
+                box-shadow: none !important;
+            }
+        }
+    }
+}
+
+// Breakpoints
+@media (max-width: 576px) {
+    .offcanvas {
+        .offcanvas-footer {
+            display: flex !important;
+        }
+    }
+    .logo {
+        h1 {
+            display: none;
+        }
+    }
+    .menu-login {
+        display: none !important;
+    }
+    .row {
+        .menu-login-mobile {
+            display: flex !important;
+        }
+    }
+}
+
+@media (max-width: 992px) {
+    .side-nav-button {
+        display: block !important;
+    }
+    .offcanvas {
+        .offcanvas-footer {
+            display: flex !important;
+        }
+    }
+    .menu-login {
+        display: none !important;
+    }
+    .menu-login-mobile {
+        display: flex !important;
+    }
+}

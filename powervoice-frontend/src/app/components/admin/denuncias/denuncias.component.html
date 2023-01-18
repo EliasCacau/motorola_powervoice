@@ -1,0 +1,110 @@
+<div id="wrapper">
+    <app-sidebar-admin></app-sidebar-admin>
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+      <app-loading></app-loading>
+      <!-- Alert component -->
+      <div class="d-flex justify-content-center w-100">
+        <div
+          class="alertas mt-5 sm-5 mt-md-5 mt-lg-0 col-10 col-sm-7 col-md-6 col-lg-5 d-flex justify-content-center row position-fixed"
+        >
+          <app-alerta></app-alerta>
+        </div>
+      </div>
+      <!-- Main Content -->
+      <div id="content">
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+          <!-- Page Heading -->
+          <h1 class="h3 mb-2 mt-4 text-gray-800">Denuncias</h1>
+          <p class="mb-4">
+            Lista de Denuncias cadastrados no sistema MotoVoice.
+          </p>
+         
+          <!-- Dados da Tabela -->
+
+          <div class="card shadow">
+
+            <div class="card-header py-3">
+
+              <!--Estou usando para teste-->
+
+              <h6 class="m-0 font-weight-bold text-primary">
+                
+                Denuncias Cadastradas
+
+              </h6>
+              <!-- Pesquisa -->
+           
+            </div>
+            <div class="card-body">
+              <div class="table-responsive table-hover">
+                <table
+                  class="table table-bordered text-center"
+                  width="100%"
+                  cellspacing="0"
+                >
+                  <thead>
+                    <tr>
+                      <th>Ações</th>
+                      <th>Status da Denuncia</th>
+                      <th>ID</th>
+                      <th>Titulo da Feature Denunciada</th>
+                      <th>Autor da Denuncia</th>
+                      <th>Descrição da denuncia</th>
+                      <th>Categoria da Denuncia</th>
+                      <th>Data</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- *ngFor="let item of registrosReport" -->
+                    <tr *ngFor="let item of registrosReport">
+                      <td>
+                        <!-- (click)="" -->
+                        <button
+                        (click)="action('Accepted')"
+                          class="btn btn-outline-primary me-1"
+                         
+                        >
+                        <i class="bi bi-check-lg"></i>
+                        </button>
+                        <button
+                        (click)="action('Rejected')"
+                          class="btn btn-outline-danger ms-1"
+                         
+                        >
+                        <i class="bi bi-x"></i>
+                        </button>
+                      </td>
+                      <td>{{item.reportStatus}}</td>
+                      <td>{{ item.id }}</td>
+                      <td>{{ item.feature.title }}</td>
+                      <td>{{ item.user.username }}</td>
+                      <td>{{ item.description }}</td>
+                      <td>{{ item.reportCategory.reportCategory}}</td>
+                      <td>{{ item.reportDate | date: "dd/MM/yyyy" }}</td>
+                     
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- <div class="d-flex justify-content-center p-2">
+                <ngb-pagination
+                  [collectionSize]="collectionSize"
+                  [(page)]="page"
+                  [maxSize]="5"
+                  [pageSize]="pageSize"
+                  [rotate]="true"
+                  (pageChange)="refreshPages()"
+                >
+                </ngb-pagination>
+                </div> -->
+                
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

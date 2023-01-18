@@ -1,0 +1,325 @@
+<div id="wrapper">
+  <app-sidebar-admin></app-sidebar-admin>
+  <!-- Content Wrapper -->
+  <div id="content-wrapper" class="d-flex flex-column">
+    <app-loading></app-loading>
+    <!-- Alert component -->
+    <div class="d-flex justify-content-center w-100">
+      <div
+        class="alertas mt-5 sm-5 mt-md-5 mt-lg-0 col-10 col-sm-7 col-md-6 col-lg-5 d-flex justify-content-center row position-fixed"
+      >
+        <app-alerta></app-alerta>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="content">
+      <!-- Begin Page Content -->
+      <div class="container-fluid">
+        <!-- Page Heading -->
+        <h1 class="h3 mb-2 mt-4 text-gray-800">Usuarios</h1>
+        <p class="mb-4">Lista de usuários cadastrados no site MotoVoice</p>
+
+        <!-- Modal para ação de editar -->
+
+        <ng-template #content let-c="close" let-d="dismiss">
+          <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">
+              Alteração de cadastro
+            </h4>
+            <button
+              type="button"
+              class="btn-close"
+              aria-label="Close"
+              (click)="d('Cross click')"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form (ngSubmit)="submit(form)" #form="ngForm" class="form-body">
+              <input
+                type="hidden"
+                name="id"
+                [(ngModel)]="registroRecovered.id"
+              />
+              <div class="row">
+                <!-- Nome de usuário input -->
+                <div class="form-floating col-6 mb-3">
+                  <input
+                    input
+                    type="text"
+                    class="form-control"
+                    id="userNameInput"
+                    placeholder="Insira um nome de usuário"
+                    name="username"
+                    [(ngModel)]="registroRecovered.username"
+                    required
+                  />
+                  <label for="userNameInput" name="username" class="px-4"
+                    >Usuário</label
+                  >
+                </div>
+
+                <!-- Senha input -->
+                <div class="form-floating col-6 mb-3">
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="passwordInput"
+                    placeholder="Password"
+                    name="password"
+                    [(ngModel)]="registroRecovered.password"
+                    required
+                  />
+                  <label for="passwordInput" name="password" class="px-4"
+                    >Senha</label
+                  >
+                </div>
+                <!-- Email input -->
+                <div class="form-floating col-12 mb-3">
+                  <input
+                    type="email"
+                    id="email"
+                    class="form-control"
+                    name="email"
+                    placeholder="you@example.com"
+                    [(ngModel)]="registroRecovered.email"
+                    required
+                  />
+                  <label for="email" class="px-4">E-mail</label>
+                </div>
+              </div>
+
+              <!-- Nome completo input -->
+              <div class="form-floating mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="nomeCompletoInput"
+                  placeholder="Seu nome"
+                  name="name"
+                  [(ngModel)]="registroRecovered.name"
+                  required
+                />
+                <label for="nomeCompletoInput" name="name">Nome completo</label>
+              </div>
+
+              <!-- Data de nascimento input -->
+              <div class="form-floating col-12 mb-3 p-0">
+                <input
+                  type="date"
+                  id="birthDateInput"
+                  class="form-control text-md-start"
+                  name="birthDate"
+                  [(ngModel)]="registroRecovered.birthDate"
+                  required
+                />
+                <label for="birthDateInput">Data de Nascimento</label>
+              </div>
+              <!-- Sex input -->
+              <div class="form-floating col-12 mb-3 p-0">
+                <select
+                  class="form-select mb-3"
+                  id="generoSelect"
+                  name="sex"
+                  [(ngModel)]="registroRecovered.sex"
+                  required
+                >
+                  <option value="Masculino">Masculino</option>
+                  <option value="Feminino">Feminino</option>
+                  <option value="Indefinido">Indefinido</option>
+                </select>
+                <label for="countrySelect">Genero</label>
+              </div>
+
+              <div class="row">
+                <!-- Phone input -->
+                <div class="form-floating col-12 mb-3">
+                  <input
+                    type="text"
+                    id="phone"
+                    class="form-control"
+                    name="phone"
+                    placeholder="(68) 99999-9999"
+                    mask="(00) 0 0000-0000"
+                    [(ngModel)]="registroRecovered.phone"
+                    required
+                  />
+                  <label for="phone" class="px-4">Celular</label>
+                </div>
+                <!-- Região Input -->
+                <div class="form-floating col-6">
+                  <select
+                    class="form-select mb-3"
+                    id="countrySelect"
+                    name="country"
+                    (change)="setState()"
+                    [(ngModel)]="registroRecovered.country"
+                    [compareWith]="compareById"
+                    required
+                  >
+                    <option
+                      *ngFor="let item of country"
+                      [ngValue]="item"
+                      selected
+                    >
+                      {{item.name}}
+                    </option>
+                  </select>
+                  <label for="countrySelect" class="px-4">Região</label>
+                </div>
+                <!-- Estado input -->
+                <div class="form-floating col-6">
+                  <select
+                    class="form-select mb-3"
+                    id="stateSelect"
+                    name="state"
+                    (change)="setCity()"
+                    [(ngModel)]="registroRecovered.state"
+                    [compareWith]="compareById"
+                    required
+                  >
+                    <option
+                      *ngFor="let item of state"
+                      [ngValue]="item"
+                      selected
+                    >
+                      {{item.name}}
+                    </option>
+                  </select>
+                  <label for="stateSelect" class="px-4">Estado</label>
+                </div>
+
+                <!-- Cidade Input -->
+                <div class="form-floating col-12 mb-3">
+                  <select
+                    class="form-select mb-3"
+                    id="citySelect"
+                    name="city"
+                    [(ngModel)]="registroRecovered.city"
+                    [compareWith]="compareById"
+                    required
+                  >
+                    <option *ngFor="let item of city" [ngValue]="item">
+                      {{item.name}}
+                    </option>
+                  </select>
+                  <label for="citySelect" class="px-4">Cidade</label>
+                </div>
+              </div>
+              <!-- Submit button -->
+              <div class="button-submit text-center">
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-block mb-3 w-100"
+                  (click)="c('Save click')"
+                >
+                  Alterar
+                </button>
+              </div>
+            </form>
+          </div>
+        </ng-template>
+
+        <!-- DataTales Example -->
+        <div class="card shadow">
+          <div class="card-header flex-sm-row flex-md-row py-3">
+            <div class="row col-auto">
+              <h6 class="m-0 font-weight-bold text-primary">
+                Usuários Cadastrados
+              </h6>
+            </div>
+            <!-- Pesquisa -->
+            <div
+              class="row col-12 col-sm-8 col-md-8 col-lg-auto justify-content-sm-end"
+            >
+              <div class="col-10 col-sm-8 col-md-6 col-lg-auto">
+                <input
+                  id="table-complete-search"
+                  type="text"
+                  class="form-control"
+                  placeholder="Pesquisar"
+                  name="termoBusca"
+                  placeholder="Pesquisar"
+                  [(ngModel)]="termoBusca"
+                />
+              </div>
+              <button
+                class="btn btn-primary col-2 col-sm-2 col-md-2 col-lg-auto mr-sm-3"
+                role="status"
+                aria-hidden="true"
+                type="button"
+                (click)="buscaRegistros(termoBusca)"
+              >
+                <i
+                  class="spinner-border spinner-border-sm"
+                  *ngIf="servicoLoader.isLoading | async"
+                ></i>
+                <i
+                  class="bi bi-search"
+                  [hidden]="servicoLoader.isLoading | async"
+                ></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive table-hover">
+              <table class="table table-bordered" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th>Ações</th>
+                    <th>ID</th>
+                    <th>Usuario</th>
+                    <th>Nome Completo</th>
+                    <th>Email</th>
+                    <th>Nascimento</th>
+                    <th>Sexo</th>
+                    <th>Telefone</th>
+                    <th>Cidade</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of registros">
+                    <td>
+                      <button
+                        class="btn btn-outline-primary me-1"
+                        (click)="open(content); getUser(item.id)"
+                      >
+                        <i class="bi bi-pen-fill"></i>
+                      </button>
+                      <button
+                        class="btn btn-outline-danger ms-1"
+                        (click)="delete(item.id, item.username)"
+                      >
+                        <i class="bi bi-trash3-fill"></i>
+                      </button>
+                    </td>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.username }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.email }}</td>
+                    <td>{{ item.birthDate | date:'dd/MM/yyyy'}}</td>
+                    <td>{{ item.sex}}</td>
+                    <td>{{ item.phone}}</td>
+                    <td>{{ item.city.name}}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="d-flex justify-content-center p-2">
+                <ngb-pagination
+                  [collectionSize]="collectionSize"
+                  [(page)]="page"
+                  [maxSize]="5"
+                  [pageSize]="pageSize"
+                  [rotate]="true"
+                  (pageChange)="refreshPages()"
+                >
+                </ngb-pagination>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End of Main Content -->

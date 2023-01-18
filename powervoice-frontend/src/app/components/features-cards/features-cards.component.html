@@ -1,0 +1,455 @@
+<!--  Modal Solicita Login (Like) -->
+<ng-template #LikeAvisaLogin let-c="close" let-d="dismiss">
+  <div class="card bg-glass">
+    <div class="modal-body">
+      <div class="container flex-center" *ngIf="!isAutenticado()">
+        <div class="row d-flex justify-content-center">
+          <p class="text-center">
+            Você precisa fazer login para votar.
+          </p>
+          <button
+            class="btn btn-outline-primary w-25"
+            routerLink="/login"
+            (click)="c('Save click')"
+          >
+            Login
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!--  Modal Solicita Login (Like) -->
+<ng-template #reportAvisaLogin let-c="close" let-d="dismiss">
+  <div class="card bg-glass">
+    <div class="modal-body">
+      <div class="container flex-center" *ngIf="!isAutenticado()">
+        <div class="row d-flex justify-content-center">
+          <p class="text-center">
+            Você precisa fazer login denunciar essa publicação.
+          </p>
+          <button
+            class="btn btn-outline-primary w-25"
+            routerLink="/login"
+            (click)="c('Save click')"
+          >
+            Login
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- Modal de alteração de Feature -->
+<ng-template #contentUpdate let-c="close" let-d="dismiss">
+  <div class="card bg-glass">
+    <div class="card-body px-4 py-4 px-md-4">
+      <div class="modal-header d-flex align-items-center px-3 pb-3">
+        <h4 class="modal-title" id="modal-basic-title">Alteração de Feature</h4>
+        <button
+          type="button"
+          class="btn-close"
+          aria-label="Close"
+          (click)="d('Cross click')"
+        ></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-12">
+              <article class="cadastrar-feature mt-4">
+                <!-- (ngSubmit)="submit(form)" -->
+                <form
+                  (ngSubmit)="submitUpdateFeature(form)"
+                  #form="ngForm"
+                  class="form-body"
+                >
+                  <div class="container">
+                    <div class="row align-items-center tip mb-3">
+                      <div class="form-floating col-12 col-md-6 col-lg-6 mb-3">
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="autorInput"
+                          placeholder="Exibe o nome do Autor da publicação"
+                          [disabled]="true"
+                        />
+                        <!-- *ngIf="registroFeature.username" -->
+                        <label
+                          *ngIf="registroFeature.user"
+                          for="autorInput"
+                          class="px-4"
+                          >Autor:
+                          {{registroFeature.user.username }}
+                        </label>
+                      </div>
+
+                      <div class="form-floating col-12 col-md-6 col-lg-6 mb-3">
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="publishDateInput"
+                          placeholder="Exibe a data da publicação"
+                          [disabled]="true"
+                        />
+                        <label for="publishDateInput" class="px-4"
+                          >Publicado em:
+                          {{registroFeature.publishDate | date: "dd/MM/yyyy"}}
+                        </label>
+                      </div>
+                      <div class="form-floating col-12 col-md-6 col-lg-6">
+                        <select
+                          class="form-select mb-3"
+                          aria-label="Produto da publicação"
+                          #product="ngModel"
+                          name="product"
+                          (change)="setCategory()"
+                          [(ngModel)]="registroFeature.product"
+                          required
+                          [compareWith]="compareById"
+                        >
+                          <option
+                            *ngFor="let item of productsFeatures"
+                            [ngValue]="item"
+                          >
+                            {{ item.name }}
+                          </option>
+                        </select>
+                        <label for="produtoName" class="px-4">Produto</label>
+                        <div
+                          *ngIf="form.submitted && product.invalid"
+                          class="erro-detalhes"
+                        >
+                          <div *ngIf="product.errors?.['required']">
+                            O produto é obrigatório.
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-floating col-12 col-md-6 col-lg-6">
+                        <select
+                          class="form-select mb-3"
+                          aria-label="Categoria da publicação"
+                          id="categoriaName"
+                          name="category"
+                          #category="ngModel"
+                          [(ngModel)]="registroFeature.category"
+                          required
+                          [compareWith]="compareById"
+                        >
+                          <option
+                            *ngFor="let item of categorysFeatures"
+                            [ngValue]="item"
+                          >
+                            {{item.category}}
+                          </option>
+                        </select>
+                        <label for="categoriaName" class="px-4"
+                          >Categoria</label
+                        >
+                        <div
+                          *ngIf="form.submitted && category.invalid"
+                          class="erro-detalhes"
+                        >
+                          <div *ngIf="category.errors?.['required']">
+                            A categoria é obrigatória.
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-floating col-12 mb-4">
+                    <input
+                      input
+                      type="text"
+                      class="form-control"
+                      id="tituloInput"
+                      maxlength="60"
+                      placeholder="Insra o título da sua publicação"
+                      name="title"
+                      #title="ngModel"
+                      [(ngModel)]="registroFeature.title"
+                      required
+                    />
+                    <label for="tituloInput" class="px-4"
+                      >Título da publicação</label
+                    >
+                    <div
+                      *ngIf="form.submitted && title.invalid"
+                      class="erro-detalhes"
+                    >
+                      <div *ngIf="title.errors?.['required']">
+                        O título é obrigatório.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-floating col-12 mb-4">
+                    <textarea
+                      class="form-control"
+                      maxlength="250"
+                      placeholder="Descreva sua ideia"
+                      id="descricaoTextArea"
+                      name="description"
+                      #description="ngModel"
+                      [(ngModel)]="registroFeature.description"
+                      required
+                    ></textarea>
+                    <label for="descricaoTextArea" class="px-4"
+                      >Descreva sua ideia</label
+                    >
+                    <div
+                      *ngIf="form.submitted && description.invalid"
+                      class="erro-detalhes"
+                    >
+                      A descrição é obrigatória
+                    </div>
+                  </div>
+
+                  <div class="button-submit d-flex justify-content-center">
+                    <!-- (click)="c('Save click')" -->
+                    <button
+                      (click)="form.valid ? c('Save click') : null"
+                      type="submit"
+                      id="refresh"
+                      class="btn btn-success btn-block mb-0 w-25 mt-3"
+                    >
+                      Alterar
+                    </button>
+                  </div>
+                </form>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- Fim Modal de alteração de features -->
+
+
+<!-- Modal de denúncias -->
+<ng-template #reportFeature let-c="close" let-d="dismiss">
+  <div class="card bg-glass">
+    <div class="card-body px-2 py-4 px-md-2">
+      <div class="modal-header d-flex align-items-center px-3 pb-3">
+        <h4 class="modal-title" id="modal-basic-title">Denunciar publicação</h4>
+        <button
+          type="button"
+          class="btn-close"
+          aria-label="Close"
+          (click)="d('Cross click')"
+        ></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-12">
+              <article class="cadastrar-feature mt-4">
+                <!-- (ngSubmit)="submit(form)" -->
+                <form
+                  (ngSubmit)="submitReport(form)"
+                  #form="ngForm"
+                  class="form-body"
+                >
+                  <div class="container">
+                    <div class="row align-items-center justify-content-center tip mb-3">
+                      <div class="form-floating col-12 mb-3">
+                        <select
+                          class="form-select mb-1"
+                          aria-label="Categoria da denúncia"
+                          #reportCategory="ngModel"
+                          name="reportCategory"
+                          [(ngModel)]="registroReport.reportCategory"
+                          required
+                        >
+                          <option
+                            *ngFor="let item of categorysReports"
+                            [ngValue]="item"
+                          >
+                            {{ item.reportCategory }}
+                          </option>
+                        </select>
+                        <label for="produtoName" class="px-4">Categoria da denúncia</label>
+                        <div
+                          *ngIf="form.submitted && reportCategory.invalid"
+                          class="erro-detalhes"
+                        >
+                          <div *ngIf="reportCategory.errors?.['required']">
+                            Campo obrigatório.
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-floating col-12 mb-4">
+                    <textarea
+                      class="form-control"
+                      maxlength="250"
+                      placeholder="Descreva a denúncia"
+                      name="description"
+                      #description="ngModel"
+                      [(ngModel)]="registroReport.description"
+                      required
+                    ></textarea>
+                    <label for="descricaoTextArea" class="px-4"
+                      >Detalhar denúncia</label
+                    >
+                    <div
+                      *ngIf="form.submitted && description.invalid"
+                      class="erro-detalhes"
+                    >
+                      A descrição é obrigatória
+                    </div>
+                  </div>
+
+                  <div class="button-submit d-flex justify-content-center">
+                    <button (click)="form.valid ? c('Save click') : null" type="submit" class="botao-denuciar" id="refresh"
+                      class="btn btn-base d-flex justify-content-center align-items-center gap-2 p-1 w-50">
+                      <i class="bi bi-exclamation-lg"></i>
+                      Denunciar 
+                    </button>
+                  </div>
+                </form>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- Seção de cards -->
+
+<div class="card-feature col-12 col-md-12 col-lg-12">
+  <!-- Body do card -->
+  <div class="card-body p-0 w-75">
+    <!-- Cabeçalho do card -->
+    <div
+      class="header pt-2 d-flex justify-content-between align-items-center gap-1"
+    >
+      <!-- Categoria + Data -->
+      <div class="d-flex gap-1">
+        <p>{{registroCard.product.name}} -</p>
+
+        <p></p>
+        <p>{{registroCard.category.category}},</p>
+
+        <p></p>
+        <p>
+          {{registroCard.publishDate | date:'dd/MM/yyyy'}}
+        </p>
+      </div>
+      <div ngbDropdown placement="bottom-right" class="options">
+        <button
+          type="button"
+          class="btn btn-base"
+          ngbDropdownToggle
+          aria-haspopup="false"
+        >
+          <i class="bi bi-three-dots"></i>
+        </button>
+        <div ngbDropdownMenu class="dropdown-options p-0">
+          <button
+            *ngIf="isAutenticado()"
+            ngbDropdownItem
+            (click)="openReport(reportFeature); getFeature(registroCard.id)"
+            class="btn btn-base d-flex align-items-center gap-2"
+          >
+            <i class="bi bi-megaphone-fill"></i>
+            Reportar publicação
+          </button>
+          <button
+          *ngIf="!isAutenticado()"
+          ngbDropdownItem
+          (click)="openReport(reportAvisaLogin);"
+          class="btn btn-base d-flex align-items-center gap-2"
+        >
+          <i class="bi bi-megaphone-fill"></i>
+          Reportar publicação
+        </button>
+          <!-- *ngIf="!isVerificaFeature()" -->
+          <button
+            *ngIf="registroCard.user.id === getUsuarioAutenticado().id"
+            (click)="openUpdate(contentUpdate); getFeature(registroCard.id)"
+            ngbDropdownItem
+            class="btn btn-base d-flex align-items-center gap-2 mt-1"
+          >
+            <i class="bi bi-pencil-square"></i>
+            Editar publicação
+          </button>
+          <!-- </div> -->
+        </div>
+      </div>
+    </div>
+    <div class="card-comment p-0 col-12 col-sm-12 col-md-11">
+      <!-- div titulo -->
+      <div class="title">
+        <h3 class="pb-2">
+          {{registroCard.title}}
+        </h3>
+      </div>
+      <!-- div descrição  -->
+      <div class="description">
+        <h4 class="pb-2">
+          {{registroCard.description}}
+        </h4>
+      </div>
+    </div>
+  </div>
+  <!-- Seção like-->
+  <div class="likes d-flex justify-content-end p-0 col-3 col-sm-3 col-md-2">
+    <!-- Usuários autenticados e sem likes -->
+    <button
+      type="button"
+      (click)="addLike(registroCard.id)"
+      *ngIf="isAutenticado() && isLiked === false"
+      class="btn-outline-light"
+    >
+      <span id="like-votation">
+        <i class="bi bi-hand-thumbs-up"></i>
+        <p>
+          {{registroCard.likes}}
+        </p>
+      </span>
+    </button>
+    <!-- Se autenticado e com likes-->
+    <button
+      type="button"
+      (click)="addLike(registroCard.id)"
+      *ngIf="isAutenticado() && isLiked === true"
+      class="liked btn-outline-light"
+    >
+      <span id="like-votation">
+        <i class="bi bi-hand-thumbs-up-fill"></i>
+        <p>
+          {{registroCard.likes}}
+        </p>
+      </span>
+    </button>
+
+    <!-- Usuários não autenticados -->
+    <button
+      type="button"
+      *ngIf="!isAutenticado()"
+      (click)="openLike(LikeAvisaLogin)"
+      class="btn-outline-light"
+    >
+      <span id="like-votation">
+        <i class="bi bi-hand-thumbs-up"></i>
+        <p>
+          {{registroCard.likes}}
+        </p>
+      </span>
+      <!-- </a> -->
+    </button>
+  </div>
+</div>

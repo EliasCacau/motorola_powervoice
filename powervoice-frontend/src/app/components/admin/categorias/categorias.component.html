@@ -1,0 +1,234 @@
+<div id="wrapper">
+  <app-sidebar-admin></app-sidebar-admin>
+  <!-- Content Wrapper -->
+  <div id="content-wrapper" class="d-flex flex-column">
+    <app-loading></app-loading>
+    <!-- Alert component -->
+    <div class="d-flex justify-content-center w-100">
+      <div
+        class="alertas mt-5 sm-5 mt-md-5 mt-lg-0 col-10 col-sm-7 col-md-6 col-lg-5 d-flex justify-content-center row position-fixed"
+      >
+        <app-alerta></app-alerta>
+      </div>
+    </div>
+    <!-- Main Content -->
+    <div id="content">
+      <!-- Begin Page Content -->
+      <div class="container-fluid">
+        <!-- Page Heading -->
+        <h1 class="h3 mb-2 mt-4 text-gray-800">Categorias</h1>
+        <p class="mb-4">
+          Lista de categorias cadastradas no site MotoVoice. Essas categorias
+          serão disponibilizadas aos usuarios quando forem cadastrar novas
+          features.
+        </p>
+
+        <!-- Modal cadastrar novo produto -->
+        <ng-template #contentInsert let-c="close" let-d="dismiss">
+          <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">
+              Cadastrar nova Categoria
+            </h4>
+            <button
+              type="button"
+              class="btn-close"
+              aria-label="Close"
+              (click)="d('Cross click')"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form (ngSubmit)="submit(form)" #form="ngForm" class="form-body">
+              <input
+                type="hidden"
+                name="id"
+                [(ngModel)]="categoriaRecovered.id"
+              />
+              <div class="row">
+                <!-- Nome de usuário input -->
+                <div class="form-floating col-12 mb-3">
+                  <input
+                    input
+                    type="text"
+                    class="form-control"
+                    id="productInput"
+                    placeholder="Insira um nome para o produto"
+                    name="category"
+                    [(ngModel)]="categoriaRecovered.category"
+                    required
+                  />
+                  <label for="productInput" name="name" class="px-4"
+                    >Nome da Categoria</label
+                  >
+                </div>
+              </div>
+              <!-- Submit button -->
+              <div class="button-submit text-center">
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-block mb-3 w-100"
+                  (click)="c('Save click')"
+                >
+                  Cadastrar
+                </button>
+              </div>
+            </form>
+          </div>
+        </ng-template>
+
+        <!-- Modal para ação de editar -->
+        <ng-template #contentUpdate let-c="close" let-d="dismiss">
+          <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">
+              Alteração de Categoria
+            </h4>
+            <button
+              type="button"
+              class="btn-close"
+              aria-label="Close"
+              (click)="d('Cross click')"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form (ngSubmit)="submit(form)" #form="ngForm" class="form-body">
+              <input
+                type="hidden"
+                name="id"
+                [(ngModel)]="categoriaRecovered.id"
+              />
+              <div class="row">
+                <!-- Nome de usuário input -->
+                <div class="form-floating col-12 mb-3">
+                  <input
+                    input
+                    type="text"
+                    class="form-control"
+                    id="productInput"
+                    placeholder="Insira um nome para o produto"
+                    name="category"
+                    [(ngModel)]="categoriaRecovered.category"
+                    required
+                  />
+                  <label for="productInput" name="name" class="px-4"
+                    >Nome da Categoria</label
+                  >
+                </div>
+              </div>
+              <!-- Submit button -->
+              <div class="button-submit text-center">
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-block mb-3 w-100"
+                  (click)="c('Save click')"
+                >
+                  Cadastrar
+                </button>
+              </div>
+            </form>
+          </div>
+        </ng-template>
+
+        <!-- DataTales Example -->
+        <div class="card shadow">
+          <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">
+              Categorias cadastradas
+            </h6>
+            <!-- Pesquisa -->
+            <div
+              class="row col-12 col-sm-11 col-md-11 col-lg-8 justify-content-sm-between"
+            >
+              <div
+                class="d-flex justify-content-center gap-3 gap-sm-0 justify-content-sm-evenly justify-content-lg-end flex-wrap flex-sm-nowrap"
+              >
+                <button
+                  class="btn btn-primary col-12 col-sm-6 col-md-6 col-lg-auto mr-lg-3 order-2 order-sm-1"
+                  (click)="open(contentInsert)"
+                >
+                  Cadastrar Categoria
+                </button>
+                <div
+                  class="col-9 col-sm-7 col-md-6 col-lg-6 order-1 order-sm-2"
+                >
+                  <input
+                    id="table-complete-search"
+                    type="text"
+                    class="form-control"
+                    placeholder="Pesquisar"
+                    name="termoBusca"
+                    placeholder="Pesquisar"
+                    [(ngModel)]="termoBusca"
+                  />
+                </div>
+                <button
+                  class="btn btn-primary col-2 col-sm-1 col-md-1 col-lg-auto order-1 order-sm-2"
+                  role="status"
+                  aria-hidden="true"
+                  type="button"
+                  (click)="buscaRegistros(termoBusca)"
+                >
+                  <i
+                    class="spinner-border spinner-border-sm"
+                    *ngIf="servicoLoader.isLoading | async"
+                  ></i>
+                  <i
+                    class="bi bi-search"
+                    [hidden]="servicoLoader.isLoading | async"
+                  ></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive table-hover">
+              <table
+                class="table table-bordered text-center"
+                width="100%"
+                cellspacing="0"
+              >
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Nome da Categoria</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of registros">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.category }}</td>
+                    <td>
+                      <button
+                        class="btn btn-outline-primary me-1"
+                        (click)="open(contentUpdate); getCategory(item.id)"
+                      >
+                        <i class="bi bi-pen-fill"></i>
+                      </button>
+                      <button
+                        class="btn btn-outline-danger ms-1"
+                        (click)="delete(item.id, item.category)"
+                      >
+                        <i class="bi bi-trash3-fill"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="d-flex justify-content-center p-2">
+              <ngb-pagination
+                [collectionSize]="collectionSize"
+                [(page)]="page"
+                [maxSize]="5"
+                [pageSize]="pageSize"
+                [rotate]="true"
+                (pageChange)="refreshPages()"
+              >
+              </ngb-pagination>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End of Main Content -->

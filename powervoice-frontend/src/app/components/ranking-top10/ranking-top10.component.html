@@ -1,0 +1,68 @@
+<div class="container h-100">
+  <section>
+    <div class="header">
+      <div class="d-grid justify-content-center py-1">
+        <div class="d-flex justify-content-center align-items-center">
+          <i class="bi bi-lightning-charge-fill"></i>
+          <h1>Top 10</h1>
+        </div>
+        <div class="py-1 mb-2">
+          <h2>Ideias mais votadas</h2>
+        </div>
+      </div>
+    </div>
+    <div class="carousel-section">
+      <ngb-carousel
+        #carousel
+        [interval]="7000"
+        [pauseOnHover]="pauseOnHover"
+        [animation]="true"
+        [pauseOnFocus]="pauseOnFocus"
+        [showNavigationIndicators]="showNavigationIndicators"
+        (slide)="onSlide($event)"
+      >
+        <ng-template ngbSlide *ngFor="let registro of top10Features; index as i">
+          <div class="h-100">
+            <div class="d-flex justify-content-center align-items-start mt-lg-2 mt-xl-4 py-2 px-2">
+              <div class="ranking-number">
+                <h5>#{{i + 1}}</h5>
+              </div>
+              <div class="title-feature">
+                <h2 class="px-2 text-center">
+                  {{registro.title}}
+                </h2>
+              </div>
+              <div class="trophy-gold" [hidden]="i != 0">
+                <i class="bi bi-trophy-fill"></i>
+              </div>
+              <div class="trophy-silver" [hidden]="i != 1">
+                <i class="bi bi-trophy-fill"></i>
+              </div>
+              <div class="trophy-bronze" [hidden]="i != 2">
+                <i class="bi bi-trophy-fill"></i>
+              </div>
+            </div>
+    
+            <div class="description pl-4 d-flex my-4 mx-3 justify-content-start">
+              <h3 class="pl-2 px-2">
+                {{registro.description}}
+              </h3>
+            </div>
+    
+            <div class="likes d-flex justify-content-center mt-5 mb-2">
+              <div class="likes-total">
+                <span class="d-flex align-items-center gap-3 px-4">
+                  <i class="bi bi-hand-thumbs-up-fill"></i>
+                  <p>{{registro.likes}} likes</p>
+                </span>
+              </div>
+            </div>
+          </div>
+          
+        </ng-template>
+      </ngb-carousel>
+    </div>
+  </section>
+
+  </div>
+  
